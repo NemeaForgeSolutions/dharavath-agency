@@ -16,6 +16,7 @@ type RouterConfig struct {
 	LeadHandler     *handler.LeadHandler
 	AdminHandler    *handler.AdminHandler
 	SEOHandler      *handler.SEOHandler
+	HealthHandler   *handler.HealthHandler
 }
 
 func NewRouter(cfg RouterConfig) http.Handler {
@@ -38,16 +39,15 @@ func NewRouter(cfg RouterConfig) http.Handler {
 		http.Redirect(w, r, "/static/site.webmanifest", http.StatusMovedPermanently)
 	})
 
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"ok"}`))
-	})
-	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"ok"}`))
-	})
+	healthHandler := cfg.HealthHandler
+	if healthHandler == nil {
+		healthHandler = handler.NewHealthHandler("development", "1.0.0", nil, nil)
+	}
+
+	mux.HandleFunc("GET /health", healthHandler.Health)
+	mux.HandleFunc("GET /healthz", healthHandler.Livez)
+	mux.HandleFunc("GET /livez", healthHandler.Livez)
+	mux.HandleFunc("GET /readyz", healthHandler.Readyz)
 
 	mux.HandleFunc("GET /{$}", cfg.PageHandler.Home)
 	mux.HandleFunc("GET /properties", cfg.PropertyHandler.List)

@@ -78,6 +78,21 @@ Configure the server via environment variables or a `.env` file:
 
 ---
 
+## Health & Monitoring
+
+The service exposes production-grade health check endpoints for container orchestrators (Docker, Kubernetes, AWS ECS, GCP Cloud Run) and load balancers:
+
+| Endpoint | Method | Purpose | Response |
+|---|---|---|---|
+| `/health` | `GET` | Comprehensive diagnostics: uptime, environment, version, and data checks | `200 OK` (JSON) |
+| `/healthz` | `GET` | Lightweight liveness probe for orchestrators and load balancers | `200 OK` `{"status":"ok"}` |
+| `/livez` | `GET` | Kubernetes standard liveness probe | `200 OK` `{"status":"ok"}` |
+| `/readyz` | `GET` | Readiness probe validating core data repository initialization | `200 OK` / `503 Service Unavailable` |
+
+Docker container health is checked automatically via `HEALTHCHECK` in the `Dockerfile`.
+
+---
+
 ## Project Structure
 
 ```text

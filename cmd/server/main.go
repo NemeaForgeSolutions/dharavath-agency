@@ -44,6 +44,7 @@ func main() {
 	leadHandler := handler.NewLeadHandler(leadService)
 	adminHandler := handler.NewAdminHandler(propertyService, adminService, viewEngine, cfg.Company)
 	seoHandler := handler.NewSEOHandler(propertyService, catalogService, "https://dharavathagency.in")
+	healthHandler := handler.NewHealthHandler(cfg.Env, "1.0.0", propRepo, leadRepo)
 
 	router := deliveryHttp.NewRouter(deliveryHttp.RouterConfig{
 		PageHandler:     pageHandler,
@@ -51,6 +52,7 @@ func main() {
 		LeadHandler:     leadHandler,
 		AdminHandler:    adminHandler,
 		SEOHandler:      seoHandler,
+		HealthHandler:   healthHandler,
 	})
 
 	server := &http.Server{
