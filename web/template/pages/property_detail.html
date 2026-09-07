@@ -1,0 +1,467 @@
+{{define "meta"}}
+  <meta property="og:title" content="{{.Data.Property.Title}} | {{.Company.Name}}">
+  <meta property="og:description" content="{{.Data.Property.Description}}">
+  <meta property="og:image" content="{{.Data.Property.Image}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{.Data.Property.Title}}">
+  <meta name="twitter:description" content="{{.Data.Property.Description}}">
+  <meta name="twitter:image" content="{{.Data.Property.Image}}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "RealEstateListing",
+        "@id": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}#listing",
+        "name": {{printf "%q" .Data.Property.Title}},
+        "description": {{printf "%q" .Data.Property.Description}},
+        "url": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}",
+        "image": {{printf "%q" .Data.Property.Image}},
+        "offers": {
+          "@type": "Offer",
+          "price": {{.Data.Property.Price}},
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "validFrom": "2025-01-01"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{printf "%q" .Data.Property.Location}},
+          "addressLocality": {{printf "%q" .Data.Property.City}},
+          "addressRegion": {{printf "%q" .Data.Property.State}},
+          "addressCountry": "IN"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://dharavathagency.in/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Properties",
+            "item": "https://dharavathagency.in/properties"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{printf "%q" .Data.Property.City}},
+            "item": "https://dharavathagency.in/properties?city={{.Data.Property.City}}"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": {{printf "%q" .Data.Property.Title}},
+            "item": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+{{end}}
+
+{{define "content"}}
+<div class="py-6 sm:py-12 pb-28 lg:pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+  <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-6 font-medium">
+    <a href="/" class="hover:text-navy-900 dark:hover:text-white transition-colors">Home</a>
+    <span>/</span>
+    <a href="/properties" class="hover:text-navy-900 dark:hover:text-white transition-colors">Properties</a>
+    <span>/</span>
+    <a href="/properties?city={{.Data.Property.City}}" class="hover:text-navy-900 dark:hover:text-white transition-colors">{{.Data.Property.City}}</a>
+    <span>/</span>
+    <span class="text-slate-800 dark:text-slate-200 font-semibold truncate">{{.Data.Property.Title}}</span>
+  </nav>
+
+  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+    <div class="space-y-2">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider {{if contains (lower .Data.Property.Possession) "ready"}}bg-emerald-600 text-white{{else}}bg-blue-600 text-white{{end}} shadow-sm">
+          {{.Data.Property.Possession}}
+        </span>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-navy-900 text-amber-400 border border-amber-400/30">
+          {{.Data.Property.Type}} · {{if gt .Data.Property.Bedrooms 0}}{{.Data.Property.Bedrooms}} BHK{{else}}{{.Data.Property.Type}}{{end}}
+        </span>
+        <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+          ID: <span class="font-mono">{{.Data.Property.ID}}</span>
+        </span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-navy-900 dark:text-white font-serif leading-tight">
+        {{.Data.Property.Title}}
+      </h1>
+      <p class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>{{.Data.Property.Location}}, {{.Data.Property.City}}, {{.Data.Property.State}}</span>
+      </p>
+    </div>
+
+    <div class="text-left lg:text-right shrink-0">
+      <span class="text-xs uppercase font-bold text-slate-400 dark:text-slate-500 block">Total Investment Value</span>
+      <span class="text-3xl sm:text-4xl font-black text-navy-900 dark:text-amber-400 font-serif tracking-tight block">
+        {{.Data.Property.PriceDisplay}}
+      </span>
+      <div class="flex lg:justify-end items-center gap-2 mt-1 text-xs text-slate-500 dark:text-slate-400 font-medium">
+        <span>{{.Data.Property.PricePerSqFt}}</span>
+        <span>·</span>
+        <span>Carpet: {{.Data.Property.CarpetArea}} sq.ft.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 mt-8">
+
+    <div class="lg:col-span-2 space-y-10">
+
+      <div 
+        x-data="{ activeImg: '{{.Data.Property.Image}}' }"
+        class="space-y-3"
+      >
+        <div class="aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900 relative shadow-md">
+          <img 
+            :src="activeImg" 
+            alt="{{.Data.Property.Title}}" 
+            class="w-full h-full object-cover transition-all duration-300"
+          >
+          <div class="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-black/70 text-white text-xs backdrop-blur-sm">
+            High-Resolution Gallery
+          </div>
+        </div>
+
+        {{if .Data.Property.Gallery}}
+        <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+          <button 
+            type="button" 
+            @click="activeImg = '{{.Data.Property.Image}}'"
+            :class="activeImg === '{{.Data.Property.Image}}' ? 'ring-2 ring-amber-500 scale-95' : 'opacity-70 hover:opacity-100'"
+            class="w-20 h-16 sm:w-24 sm:h-18 rounded-xl overflow-hidden shrink-0 transition-all"
+          >
+            <img src="{{.Data.Property.Image}}" class="w-full h-full object-cover">
+          </button>
+          {{range .Data.Property.Gallery}}
+          <button 
+            type="button" 
+            @click="activeImg = '{{.}}'"
+            :class="activeImg === '{{.}}' ? 'ring-2 ring-amber-500 scale-95' : 'opacity-70 hover:opacity-100'"
+            class="w-20 h-16 sm:w-24 sm:h-18 rounded-xl overflow-hidden shrink-0 transition-all"
+          >
+            <img src="{{.}}" class="w-full h-full object-cover">
+          </button>
+          {{end}}
+        </div>
+        {{end}}
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-4 rounded-xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+          <span class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Super Area</span>
+          <span class="text-base font-extrabold text-navy-900 dark:text-white mt-1 block">{{.Data.Property.Area}} sq.ft.</span>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+          <span class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Carpet Area</span>
+          <span class="text-base font-extrabold text-navy-900 dark:text-white mt-1 block">{{.Data.Property.CarpetArea}} sq.ft.</span>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+          <span class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Bedrooms / Baths</span>
+          <span class="text-base font-extrabold text-navy-900 dark:text-white mt-1 block">{{if gt .Data.Property.Bedrooms 0}}{{.Data.Property.Bedrooms}} BHK · {{.Data.Property.Bathrooms}} Bath{{else}}{{.Data.Property.Type}}{{end}}</span>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 text-center shadow-sm">
+          <span class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Balconies</span>
+          <span class="text-base font-extrabold text-navy-900 dark:text-white mt-1 block">{{.Data.Property.Balconies}} Decks</span>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-navy-900 dark:text-white font-serif">Property Specifications</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-xs">
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Property Sub-Type</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.SubType}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Floor Level</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.Floor}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Facing / Direction</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.Facing}} Facing</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Car Parking</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.Parking}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Furnishing Status</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.Furnishing}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Property Age</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.PropertyAge}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Developer / Project</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">{{.Data.Property.Developer}}</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">RERA Registration</span>
+            <span class="font-bold text-emerald-700 dark:text-emerald-400 font-mono">{{.Data.Property.ReraNumber}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-3">
+        <h3 class="text-lg font-bold text-navy-900 dark:text-white font-serif">Overview & Architecture</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          {{.Data.Property.Description}}
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-navy-900 dark:text-white font-serif">Amenities & Infrastructure</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {{range .Data.Property.Amenities}}
+          <div class="flex items-center gap-2.5 text-xs text-slate-700 dark:text-slate-300 font-medium p-2.5 rounded-xl bg-slate-50 dark:bg-navy-950/80 border border-slate-100 dark:border-slate-800">
+            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <span>{{.}}</span>
+          </div>
+          {{end}}
+        </div>
+      </div>
+
+      {{if .Data.Property.Nearby}}
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-navy-900 dark:text-white font-serif">Strategic Connectivity & Distance</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          {{range .Data.Property.Nearby}}
+          <div class="p-3 bg-slate-50 dark:bg-navy-950/80 rounded-xl border border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <span class="font-semibold text-slate-800 dark:text-slate-200">{{.Name}}</span>
+            <span class="text-amber-600 dark:text-amber-400 font-mono font-bold">{{.Distance}}</span>
+          </div>
+          {{end}}
+        </div>
+      </div>
+      {{end}}
+
+      <div 
+        x-data="{
+          price: {{.Data.Property.Price}},
+          loanPercent: 80,
+          interestRate: 8.5,
+          tenureYears: 20,
+          get principal() {
+            return Math.round(this.price * (this.loanPercent / 100));
+          },
+          get emi() {
+            const p = this.principal;
+            const r = (this.interestRate / 12) / 100;
+            const n = this.tenureYears * 12;
+            if (r === 0) return Math.round(p / n);
+            const factor = Math.pow(1 + r, n);
+            return Math.round((p * r * factor) / (factor - 1));
+          },
+          get totalPayable() {
+            return this.emi * this.tenureYears * 12;
+          },
+          get totalInterest() {
+            return this.totalPayable - this.principal;
+          },
+          formatINR(num) {
+            if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+            if (num >= 100000) return '₹' + (num / 100000).toFixed(2) + ' Lakh';
+            return '₹' + Math.round(num).toLocaleString('en-IN');
+          }
+        }"
+        class="bg-navy-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-800 space-y-6"
+      >
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs uppercase font-bold text-amber-400 block tracking-wider">Financial Planning</span>
+            <h3 class="text-xl font-bold font-serif">Home Loan EMI Calculator</h3>
+          </div>
+          <div class="text-left sm:text-right">
+            <span class="text-xs text-slate-400 block">Estimated Monthly EMI</span>
+            <span class="text-2xl font-black text-amber-400 font-serif" x-text="formatINR(emi) + '/mo'"></span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-300">Loan Amount: <strong class="text-amber-400" x-text="formatINR(principal) + ' (' + loanPercent + '%)'"></strong></span>
+              <span class="text-slate-400" x-text="'Down Payment: ' + formatINR(price - principal)"></span>
+            </div>
+            <input type="range" min="20" max="90" step="5" x-model.number="loanPercent" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-300">Interest Rate:</span>
+              <span class="text-amber-400 font-mono" x-text="interestRate + '% p.a.'"></span>
+            </div>
+            <input type="range" min="7.0" max="12.0" step="0.1" x-model.number="interestRate" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-300">Loan Tenure:</span>
+              <span class="text-amber-400 font-mono" x-text="tenureYears + ' Years (' + (tenureYears * 12) + ' months)'"></span>
+            </div>
+            <input type="range" min="5" max="30" step="1" x-model.number="tenureYears" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-slate-800 text-center text-xs">
+          <div class="p-3 bg-navy-900 rounded-xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] uppercase block">Principal Loan</span>
+            <span class="font-bold text-white text-xs sm:text-sm mt-1 block" x-text="formatINR(principal)"></span>
+          </div>
+          <div class="p-3 bg-navy-900 rounded-xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] uppercase block">Total Interest</span>
+            <span class="font-bold text-amber-400 text-xs sm:text-sm mt-1 block" x-text="formatINR(totalInterest)"></span>
+          </div>
+          <div class="p-3 bg-navy-900 rounded-xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] uppercase block">Total Payable</span>
+            <span class="font-bold text-emerald-400 text-xs sm:text-sm mt-1 block" x-text="formatINR(totalPayable)"></span>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-slate-500 text-center italic">
+          * Indicative calculation based on reducing balance method. Actual rates depend on bank credit scores.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="space-y-6">
+
+      {{if .Data.Agent}}
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <span class="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400 tracking-wider block">Assigned Property Advisor</span>
+        <div class="flex items-center gap-3">
+          <img src="{{.Data.Agent.Photo}}" alt="{{.Data.Agent.Name}}" class="w-16 h-16 rounded-2xl object-cover border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div>
+            <h4 class="font-bold text-navy-900 dark:text-white text-base">{{.Data.Agent.Name}}</h4>
+            <span class="text-xs text-slate-500 dark:text-slate-400 block">{{.Data.Agent.Role}}</span>
+            <span class="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono font-semibold">{{.Data.Agent.ReraID}}</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic">
+          "{{.Data.Agent.Bio}}"
+        </p>
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <a 
+            href="tel:{{.Data.Agent.Phone}}" 
+            class="py-2.5 rounded-lg bg-navy-900 text-white font-bold text-xs text-center flex items-center justify-center gap-1 hover:bg-navy-800 dark:bg-slate-800 dark:hover:bg-slate-700"
+          >
+            <span>Call Agent</span>
+          </a>
+          <a 
+            href="{{whatsappURL (printf "Hi %s, I am looking at %s (%s) priced at %s in %s. Please share complete floor plan & arrange a site visit." .Data.Agent.Name .Data.Property.Title .Data.Property.ID .Data.Property.PriceDisplay .Data.Property.Location)}}" 
+            target="_blank" 
+            rel="noopener"
+            class="py-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-bold text-xs text-center border border-emerald-300 dark:border-emerald-800/60 flex items-center justify-center gap-1 hover:bg-emerald-100 dark:hover:bg-emerald-900/60"
+          >
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+      {{end}}
+
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 tracking-wider block">VIP Walkthrough</span>
+          <h3 class="text-base font-bold text-navy-900 dark:text-white font-serif">Schedule a Private Site Visit</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Dedicated chauffeur pick-up available for accredited buyers.</p>
+        </div>
+
+        <div id="property-inquiry-response">
+          <form 
+            hx-post="/api/leads" 
+            hx-target="#property-inquiry-response" 
+            hx-swap="innerHTML"
+            class="space-y-3"
+          >
+            <input type="hidden" name="propertyId" value="{{.Data.Property.ID}}">
+            <input type="hidden" name="propertyTitle" value="{{.Data.Property.Title}}">
+            <input type="hidden" name="type" value="site_visit">
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Your Name *</label>
+              <input type="text" name="name" required placeholder="Enter full name" class="w-full px-3 py-2.5 sm:py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Mobile Number *</label>
+              <input type="tel" name="phone" required placeholder="+91 98765 43210" class="w-full px-3 py-2.5 sm:py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Preferred Date</label>
+              <input type="text" name="preferredDate" placeholder="e.g. This Saturday Morning" class="w-full px-3 py-2.5 sm:py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 cursor-pointer"
+            >
+              Request Private Tour
+            </button>
+            <span class="block text-[10px] text-slate-400 dark:text-slate-500 text-center">100% Confidential · Zero Brokerage Spam</span>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  {{if .Data.Similar}}
+  <div class="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800">
+    <div class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Curated Alternatives</span>
+      <h3 class="text-xl sm:text-2xl font-bold text-navy-900 dark:text-white font-serif">
+        Similar Properties in {{.Data.Property.City}}
+      </h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      {{range .Data.Similar}}
+        {{template "property_card" .}}
+      {{end}}
+    </div>
+  </div>
+  {{end}}
+  
+  <div class="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 dark:bg-navy-950/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] flex items-center justify-between gap-3">
+    <div class="min-w-0">
+      <span class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block leading-none">Investment Value</span>
+      <span class="text-lg font-black text-navy-950 dark:text-amber-400 font-serif leading-tight block truncate">{{.Data.Property.PriceDisplay}}</span>
+      <span class="text-[10px] text-slate-500 dark:text-slate-400 block leading-none font-medium">{{.Data.Property.PricePerSqFt}}</span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <a 
+        href="{{whatsappURL (printf "Hi Dharavath Agency, I am looking at %s (%s) priced at %s in %s. Please share complete floor plan & arrange a site visit." .Data.Property.Title .Data.Property.ID .Data.Property.PriceDisplay .Data.Property.Location)}}" 
+        target="_blank" 
+        rel="noopener"
+        class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800/60 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors"
+        title="WhatsApp Consultation">
+        <svg class="w-5 h-5 fill-current text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.895-.447-1.399-.575-2.28-1.996-2.348-2.088-.069-.091-.564-.75-.564-1.428 0-.679.355-1.014.481-1.152.126-.137.275-.172.368-.172.091 0 .183.001.263.005.085.004.198-.032.308.232.115.275.391.954.425 1.023.034.069.057.149.011.24-.046.092-.069.149-.138.229-.069.08-.145.179-.207.24-.069.069-.141.144-.061.282.08.137.356.586.764.95.525.467.969.612 1.107.681.138.069.218.057.3-.035.08-.092.345-.401.437-.539.092-.138.184-.115.31-.069.126.046.804.379.942.448.138.069.23.103.264.161.034.057.034.333-.11.738z"/></svg>
+      </a>
+      <button 
+        type="button" 
+        @click="openLead('Schedule Site Visit: {{.Data.Property.Title}}', '{{.Data.Property.ID}}', '{{.Data.Property.Title}}')"
+        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all">
+        Book Tour
+      </button>
+    </div>
+  </div>
+
+</div>
+{{end}}

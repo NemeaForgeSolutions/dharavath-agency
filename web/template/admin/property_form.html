@@ -1,0 +1,451 @@
+{{define "content"}}
+<div class="max-w-4xl mx-auto space-y-6">
+
+  <div class="flex items-center justify-between">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
+        <a href="/admin" class="hover:text-navy-950 dark:hover:text-amber-400 flex items-center gap-1 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Admin Dashboard
+        </a>
+        <span>/</span>
+        <span class="text-navy-950 dark:text-slate-200">{{if .Data.IsEdit}}Edit Property{{else}}Add Property{{end}}</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950 dark:text-white">
+        {{if .Data.IsEdit}}Edit Listing: {{.Data.Property.Title}}{{else}}Create New Real Estate Listing{{end}}
+      </h1>
+    </div>
+  </div>
+
+  {{if .Data.Error}}
+  <div class="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-sm flex items-center gap-3">
+    <svg class="w-5 h-5 text-rose-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <span>{{.Data.Error}}</span>
+  </div>
+  {{end}}
+
+  <form 
+    method="POST" 
+    action="{{if .Data.IsEdit}}/admin/properties/edit/{{.Data.Property.ID}}{{else}}/admin/properties/new{{end}}"
+    class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 space-y-8 transition-colors">
+
+    {{if .Data.IsEdit}}
+    <input type="hidden" name="id" value="{{.Data.Property.ID}}">
+    {{end}}
+
+    <div>
+      <h2 class="text-base font-bold text-navy-950 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-navy-100 dark:bg-navy-800 text-navy-800 dark:text-amber-400 text-xs flex items-center justify-center font-bold">1</span>
+        Core Listing Details
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Listing Title <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            name="title" 
+            required 
+            value="{{if .Data.Property}}{{.Data.Property.Title}}{{end}}"
+            placeholder="e.g. The Crown Penthouse at Jubilee Hills" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Transaction Type <span class="text-rose-500">*</span>
+          </label>
+          <select 
+            name="transaction" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-medium">
+            <option value="Sale" {{if and .Data.Property (eq .Data.Property.Transaction "Sale")}}selected{{end}}>For Sale</option>
+            <option value="Rent" {{if and .Data.Property (eq .Data.Property.Transaction "Rent")}}selected{{end}}>For Rent</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Property Category <span class="text-rose-500">*</span>
+          </label>
+          <select 
+            name="type" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-medium">
+            <option value="Apartment" {{if and .Data.Property (eq .Data.Property.Type "Apartment")}}selected{{end}}>Apartment</option>
+            <option value="Villa" {{if and .Data.Property (eq .Data.Property.Type "Villa")}}selected{{end}}>Villa / Independent House</option>
+            <option value="Penthouse" {{if and .Data.Property (eq .Data.Property.Type "Penthouse")}}selected{{end}}>Sky Penthouse</option>
+            <option value="Commercial" {{if and .Data.Property (eq .Data.Property.Type "Commercial")}}selected{{end}}>Commercial Office / Retail</option>
+            <option value="Plot" {{if and .Data.Property (eq .Data.Property.Type "Plot")}}selected{{end}}>Residential / Commercial Plot</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Architectural SubType
+          </label>
+          <input 
+            type="text" 
+            name="subType" 
+            value="{{if .Data.Property}}{{.Data.Property.SubType}}{{end}}"
+            placeholder="e.g. Ultra-Luxury Sky Villa" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Developer / Promoters
+          </label>
+          <input 
+            type="text" 
+            name="developer" 
+            value="{{if .Data.Property}}{{.Data.Property.Developer}}{{end}}"
+            placeholder="e.g. My Home Group, Prestige, DLF" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-base font-bold text-navy-950 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-navy-100 dark:bg-navy-800 text-navy-800 dark:text-amber-400 text-xs flex items-center justify-center font-bold">2</span>
+        Location & Regional Coordinates
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            City <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            name="city" 
+            required
+            value="{{if .Data.Property}}{{.Data.Property.City}}{{else}}Hyderabad{{end}}"
+            placeholder="e.g. Hyderabad" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Micro-Market / Locality <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            name="location" 
+            required
+            value="{{if .Data.Property}}{{.Data.Property.Location}}{{end}}"
+            placeholder="e.g. Financial District, Gachibowli" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            State
+          </label>
+          <input 
+            type="text" 
+            name="state" 
+            value="{{if .Data.Property}}{{.Data.Property.State}}{{else}}Telangana{{end}}"
+            placeholder="e.g. Telangana" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Vastu / Facing
+          </label>
+          <select 
+            name="facing" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+            <option value="East" {{if and .Data.Property (eq .Data.Property.Facing "East")}}selected{{end}}>East Facing</option>
+            <option value="North" {{if and .Data.Property (eq .Data.Property.Facing "North")}}selected{{end}}>North Facing</option>
+            <option value="North-East" {{if and .Data.Property (eq .Data.Property.Facing "North-East")}}selected{{end}}>North-East Facing</option>
+            <option value="West" {{if and .Data.Property (eq .Data.Property.Facing "West")}}selected{{end}}>West Facing</option>
+            <option value="South" {{if and .Data.Property (eq .Data.Property.Facing "South")}}selected{{end}}>South Facing</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Floor / Elevation
+          </label>
+          <input 
+            type="text" 
+            name="floor" 
+            value="{{if .Data.Property}}{{.Data.Property.Floor}}{{end}}"
+            placeholder="e.g. 18th of 40 Floors" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Car Parking
+          </label>
+          <input 
+            type="text" 
+            name="parking" 
+            value="{{if .Data.Property}}{{.Data.Property.Parking}}{{end}}"
+            placeholder="e.g. 2 Covered Car Parks" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-base font-bold text-navy-950 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-navy-100 dark:bg-navy-800 text-navy-800 dark:text-amber-400 text-xs flex items-center justify-center font-bold">3</span>
+        Financials & Pricing Structure
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Raw Numerical Price (₹) <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="number" 
+            name="price" 
+            required 
+            min="10000"
+            value="{{if .Data.Property}}{{.Data.Property.Price}}{{end}}"
+            placeholder="e.g. 38500000" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-mono font-medium">
+          <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 block">Full integer amount in INR</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Custom Price Display
+          </label>
+          <input 
+            type="text" 
+            name="priceDisplay" 
+            value="{{if .Data.Property}}{{.Data.Property.PriceDisplay}}{{end}}"
+            placeholder="Auto-calculated (e.g. ₹3.85 Cr)" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+          <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 block">Leave blank for auto-formatting</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Security Deposit (For Rent)
+          </label>
+          <input 
+            type="text" 
+            name="deposit" 
+            value="{{if .Data.Property}}{{.Data.Property.Deposit}}{{end}}"
+            placeholder="e.g. ₹5.00 Lakh" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-base font-bold text-navy-950 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-navy-100 dark:bg-navy-800 text-navy-800 dark:text-amber-400 text-xs flex items-center justify-center font-bold">4</span>
+        Physical Dimensions & Layout
+      </h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Bedrooms (BHK)
+          </label>
+          <input 
+            type="number" 
+            name="bedrooms" 
+            min="0"
+            value="{{if .Data.Property}}{{.Data.Property.Bedrooms}}{{else}}3{{end}}"
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Bathrooms
+          </label>
+          <input 
+            type="number" 
+            name="bathrooms" 
+            min="0"
+            value="{{if .Data.Property}}{{.Data.Property.Bathrooms}}{{else}}3{{end}}"
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Super Built Area (sq.ft.)
+          </label>
+          <input 
+            type="number" 
+            name="area" 
+            min="0"
+            value="{{if .Data.Property}}{{.Data.Property.Area}}{{end}}"
+            placeholder="e.g. 3200" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Carpet Area (sq.ft.)
+          </label>
+          <input 
+            type="number" 
+            name="carpetArea" 
+            min="0"
+            value="{{if .Data.Property}}{{.Data.Property.CarpetArea}}{{end}}"
+            placeholder="e.g. 2560" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Furnishing
+          </label>
+          <select 
+            name="furnishing" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+            <option value="Unfurnished" {{if and .Data.Property (eq .Data.Property.Furnishing "Unfurnished")}}selected{{end}}>Unfurnished</option>
+            <option value="Semi-Furnished" {{if and .Data.Property (eq .Data.Property.Furnishing "Semi-Furnished")}}selected{{end}}>Semi-Furnished</option>
+            <option value="Fully Furnished" {{if and .Data.Property (eq .Data.Property.Furnishing "Fully Furnished")}}selected{{end}}>Fully Furnished</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Possession Timeline
+          </label>
+          <input 
+            type="text" 
+            name="possession" 
+            value="{{if .Data.Property}}{{.Data.Property.Possession}}{{else}}Ready to Move{{end}}"
+            placeholder="e.g. Ready to Move or Dec 2026" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            RERA Status
+          </label>
+          <input 
+            type="text" 
+            name="reraStatus" 
+            value="{{if .Data.Property}}{{.Data.Property.ReraStatus}}{{else}}RERA Approved{{end}}"
+            placeholder="e.g. RERA Approved" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            RERA Registration No.
+          </label>
+          <input 
+            type="text" 
+            name="reraNumber" 
+            value="{{if .Data.Property}}{{.Data.Property.ReraNumber}}{{end}}"
+            placeholder="e.g. P02400005123" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-mono">
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-base font-bold text-navy-950 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-navy-100 dark:bg-navy-800 text-navy-800 dark:text-amber-400 text-xs flex items-center justify-center font-bold">5</span>
+        Media, Badges & Marketing Copy
+      </h2>
+      <div class="space-y-4 mt-4">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Primary High-Res Image URL
+          </label>
+          <input 
+            type="url" 
+            name="image" 
+            value="{{if .Data.Property}}{{.Data.Property.Image}}{{end}}"
+            placeholder="https://images.unsplash.com/photo-..." 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Luxury Description
+          </label>
+          <textarea 
+            name="description" 
+            rows="4" 
+            placeholder="Comprehensive description highlighting architecture, panoramic views, fittings, and lifestyle..." 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">{{if .Data.Property}}{{.Data.Property.Description}}{{end}}</textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Key Amenities (Comma Separated)
+          </label>
+          <input 
+            type="text" 
+            name="amenities" 
+            value="{{if .Data.Property}}{{join .Data.Property.Amenities ", "}}{{end}}"
+            placeholder="Private Elevator, Infinity Pool, Clubhouse, 24/7 Concierge, Italian Marble Flooring" 
+            class="w-full px-4 py-2.5 text-base sm:text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all">
+        </div>
+
+        <div class="pt-2 flex flex-wrap gap-6">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <input 
+              type="checkbox" 
+              name="featured" 
+              value="true" 
+              {{if and .Data.Property .Data.Property.Featured}}checked{{end}}
+              class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-slate-700 dark:bg-navy-950">
+            <span>Featured on Homepage Showcase</span>
+          </label>
+
+          <label class="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <input 
+              type="checkbox" 
+              name="verified" 
+              value="true" 
+              {{if or (not .Data.Property) .Data.Property.Verified}}checked{{end}}
+              class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 dark:bg-navy-950">
+            <span>Verified Title & RERA Clearance</span>
+          </label>
+
+          <label class="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <input 
+              type="checkbox" 
+              name="isNewLaunch" 
+              value="true" 
+              {{if and .Data.Property .Data.Property.IsNewLaunch}}checked{{end}}
+              class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-700 dark:bg-navy-950">
+            <span>Flag as New Launch Project</span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+      <a 
+        href="/admin" 
+        class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-navy-800 transition-colors">
+        Cancel
+      </a>
+
+      <button 
+        type="submit" 
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span>{{if .Data.IsEdit}}Update Property Listing{{else}}Save & Publish Listing{{end}}</span>
+      </button>
+    </div>
+
+  </form>
+
+</div>
+{{end}}

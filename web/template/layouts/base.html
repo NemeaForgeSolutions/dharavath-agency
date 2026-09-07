@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <script>
+    tailwind = { config: { darkMode: 'class' } };
+    (function() {
+      try {
+        const stored = localStorage.getItem('dharavath_theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="theme-color" content="#040d16" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+  <link rel="apple-touch-icon" href="/static/img/favicon.svg">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <title>{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}} - Curated Indian Real Estate</title>
+  <meta name="description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
+  <meta name="keywords" content="Indian real estate, Hyderabad properties, Bangalore apartments, luxury villas Jubilee Hills, Financial District Kokapet, buy house India, RERA verified brokers, commercial office lease">
+  <meta name="author" content="{{.Company.Name}}">
+
+  <link rel="canonical" href="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://dharavathagency.in/{{end}}">
+  <meta name="robots" content="{{if .Robots}}{{.Robots}}{{else}}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{{end}}">
+  <meta name="googlebot" content="index, follow">
+
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:site_name" content="{{.Company.Name}}">
+  <meta property="og:type" content="{{if .OGType}}{{.OGType}}{{else}}website{{end}}">
+  <meta property="og:url" content="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://dharavathagency.in/{{end}}">
+  <meta property="og:title" content="{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}}">
+  <meta property="og:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
+  <meta property="og:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{if .Title}}{{.Title}}{{else}}{{.Company.Name}}{{end}}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Dharavath AgencyRealty">
+  <meta name="twitter:creator" content="@Dharavath AgencyRealty">
+  <meta name="twitter:title" content="{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}}">
+  <meta name="twitter:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
+  <meta name="twitter:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "RealEstateAgent",
+        "@id": "https://dharavathagency.in/#organization",
+        "name": "{{.Company.Name}}",
+        "url": "https://dharavathagency.in",
+        "logo": "https://dharavathagency.in/static/img/favicon.svg",
+        "image": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+        "description": "{{.Company.Tagline}}",
+        "telephone": "{{.Company.Phone}}",
+        "email": "{{.Company.Email}}",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "Bank Transfer, Cheque, Escrow",
+        "priceRange": "₹70L - ₹50Cr",
+        "openingHours": "Mo-Sa 09:30-19:30",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "{{.Company.Headquarters.Address}}",
+          "addressLocality": "{{.Company.Headquarters.City}}",
+          "addressRegion": "{{.Company.Headquarters.State}}",
+          "postalCode": "{{.Company.Headquarters.Pincode}}",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "17.4435",
+          "longitude": "78.3772"
+        },
+        "areaServed": ["Hyderabad", "Bengaluru", "Mumbai", "Gurugram"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dharavathagency.in/#website",
+        "url": "https://dharavathagency.in",
+        "name": "{{.Company.Name}}",
+        "description": "{{.Company.Tagline}}",
+        "publisher": {
+          "@id": "https://dharavathagency.in/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://dharavathagency.in/properties?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
+
+  {{block "meta" .}}{{end}}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/styles.css">
+
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+
+<body 
+  x-data="{
+    darkMode: false,
+    init() {
+      this.darkMode = document.documentElement.classList.contains('dark');
+    },
+    toggleTheme() {
+      this.darkMode = !this.darkMode;
+      if (this.darkMode) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('dharavath_theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('dharavath_theme', 'light');
+      }
+      window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark: this.darkMode } }));
+    },
+    mobileMenuOpen: false,
+    searchModalOpen: false,
+    leadModalOpen: false,
+    leadModalTitle: 'Schedule Site Visit / Advisory Consultation',
+    leadPropertyId: '',
+    leadPropertyTitle: '',
+    openLead(title, propId, propTitle) {
+      this.leadModalTitle = title || 'Schedule Site Visit';
+      this.leadPropertyId = propId || '';
+      this.leadPropertyTitle = propTitle || '';
+      this.leadModalOpen = true;
+    }
+  }"
+  @open-lead.window="openLead($event.detail.title, $event.detail.propertyId, $event.detail.propertyTitle)"
+  class="bg-slate-50 text-slate-800 dark:bg-navy-950 dark:text-slate-100 antialiased selection:bg-amber-500 selection:text-navy-950 flex flex-col min-h-screen"
+>
+
+  {{template "navbar" .}}
+
+  <main class="flex-grow">
+    {{block "content" .}}{{end}}
+  </main>
+
+  {{template "footer" .}}
+
+  {{template "lead_modal" .}}
+
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-xl text-xs sm:text-sm font-bold flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0 ${
+        type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+      }`;
+      el.innerHTML = `<span>${message}</span>`;
+      container.appendChild(el);
+      requestAnimationFrame(() => {
+        el.classList.remove('translate-y-2', 'opacity-0');
+      });
+      setTimeout(() => {
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => el.remove(), 300);
+      }, 4000);
+    }
+  </script>
+
+</body>
+</html>

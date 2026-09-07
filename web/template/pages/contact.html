@@ -1,0 +1,164 @@
+{{define "meta"}}
+  <meta property="og:title" content="Contact Dharavath Agency Advisory Desks | {{.Company.Name}}">
+  <meta property="og:description" content="Connect directly with our senior real estate advisory leaders in Hyderabad, Bengaluru, Mumbai, and Delhi NCR.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dharavathagency.in/contact">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://dharavathagency.in/contact#webpage",
+        "url": "https://dharavathagency.in/contact",
+        "name": "Contact Dharavath Agency Advisory Desks",
+        "description": "Connect with our senior real estate brokers and advisory leadership across Hyderabad, Bengaluru, and Mumbai.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://dharavathagency.in/#website"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://dharavathagency.in/contact#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://dharavathagency.in/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact",
+            "item": "https://dharavathagency.in/contact"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+{{end}}
+
+{{define "content"}}
+<div class="py-8 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+  <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-6 font-medium">
+    <a href="/" class="hover:text-navy-900 dark:hover:text-white transition-colors">Home</a>
+    <span>/</span>
+    <span class="text-slate-800 dark:text-slate-200 font-semibold">Contact</span>
+  </nav>
+
+  <div class="max-w-3xl mb-12">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-900 text-amber-400 border border-amber-400/20 text-xs font-bold mb-3 shadow-sm">
+      <span>Direct Advisory Access</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-navy-900 dark:text-white font-serif tracking-tight">
+      Connect with Our Senior Advisory Leaders
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+      Whether you are exploring a multi-crore residential acquisition, a pre-leased commercial portfolio, or looking to dispose of an ancestral parcel, our leadership desk is at your service.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 mb-16">
+
+    <div class="space-y-6">
+      <div class="bg-navy-950 text-white p-6 rounded-2xl border border-slate-800 space-y-4 shadow-md">
+        <span class="text-xs uppercase font-bold text-amber-400 tracking-wider block">Registered Headquarters</span>
+        <div>
+          <h3 class="font-bold text-base font-serif">{{.Company.Name}}</h3>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{.Company.Headquarters.Address}}, {{.Company.Headquarters.City}}, {{.Company.Headquarters.State}} {{.Company.Headquarters.Pincode}}</p>
+        </div>
+        <div class="pt-2 border-t border-slate-800 text-xs space-y-1">
+          <p class="text-slate-400">Direct Phone: <a href="tel:{{.Company.PhoneRaw}}" class="text-amber-400 font-mono font-bold">{{.Company.Phone}}</a></p>
+          <p class="text-slate-400">Email: <a href="mailto:{{.Company.Email}}" class="text-slate-200">{{.Company.Email}}</a></p>
+          <p class="text-slate-400 font-mono text-[11px] pt-1 text-emerald-400">{{.Company.ReraBrokerNumber}}</p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-navy-900/95 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <h3 class="font-bold text-navy-900 dark:text-white text-sm uppercase tracking-wider">Regional Advisory Desks</h3>
+        <div class="space-y-3 text-xs">
+          {{range .Company.Branches}}
+          <div class="p-3 bg-slate-50 dark:bg-navy-950/80 rounded-xl border border-slate-100 dark:border-slate-800">
+            <span class="font-bold text-navy-900 dark:text-white block text-sm">{{.City}} Office</span>
+            <span class="text-slate-500 dark:text-slate-400 block text-[11px]">{{.Area}}</span>
+            <a href="tel:{{.Phone}}" class="text-amber-600 dark:text-amber-400 font-mono font-bold block mt-1 hover:underline">{{.Phone}}</a>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 bg-white dark:bg-navy-900/95 p-6 sm:p-10 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-navy-900 dark:text-white font-serif">Send an Advisory Inquiry</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">We respond within 2 business hours with verified inventory and advisory options.</p>
+      </div>
+
+      <div id="contact-form-response">
+        <form 
+          hx-post="/api/leads" 
+          hx-target="#contact-form-response" 
+          hx-swap="innerHTML"
+          class="space-y-4"
+        >
+          <input type="hidden" name="type" value="general_contact">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Full Name *</label>
+              <input type="text" name="name" required placeholder="e.g. Vikram Reddy" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Mobile Number *</label>
+              <input type="tel" name="phone" required placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Email Address</label>
+              <input type="email" name="email" placeholder="vikram@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Target City</label>
+              <select name="city" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none">
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Gurugram">Delhi NCR</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Your Requirements / Question *</label>
+            <textarea name="message" required rows="4" placeholder="Mention budget, desired location, timeline, and whether this is for self-occupancy or investment yield..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none"></textarea>
+          </div>
+
+          <div class="pt-2">
+            <button 
+              type="submit" 
+              class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 cursor-pointer"
+            >
+              Submit Confidential Inquiry
+            </button>
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 text-center mt-2">
+              Your details are strictly confidential. We never share customer information with third-party telemarketers.
+            </p>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+{{end}}

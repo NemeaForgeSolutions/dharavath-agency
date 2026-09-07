@@ -1,0 +1,314 @@
+{{define "content"}}
+<div x-data="{ search: '', filterType: 'all', tab: 'inventory' }" class="space-y-8">
+
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950 dark:text-white">Property Portfolio Management</h1>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Real-time inventory status, lead tracking, and property administration.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="/admin/properties/new" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+        <span>Add New Property</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+    <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Total Listings</p>
+        <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.TotalProperties}}</p>
+        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Active in Catalog</p>
+      </div>
+      <div class="w-12 h-12 rounded-xl bg-navy-50 dark:bg-navy-950 text-navy-700 dark:text-amber-400 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Portfolio Value</p>
+        <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.TotalPortfolioValueDisplay}}</p>
+        <p class="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1">Gross Asset Value</p>
+      </div>
+      <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-navy-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Featured Homes</p>
+        <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.FeaturedCount}}</p>
+        <p class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mt-1">Homepage Showcase</p>
+      </div>
+      <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-navy-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Client Inquiries</p>
+        <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.TotalLeads}}</p>
+        <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">Active Leads Received</p>
+      </div>
+      <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-navy-950 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 overflow-x-auto no-scrollbar">
+    <button 
+      @click="tab = 'inventory'" 
+      :class="tab === 'inventory' ? 'bg-navy-950 dark:bg-amber-500 text-white dark:text-navy-950 font-bold' : 'bg-white dark:bg-navy-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 font-medium'"
+      class="px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-sm shrink-0 whitespace-nowrap">
+      Properties Inventory ({{.Data.Stats.TotalProperties}})
+    </button>
+    <button 
+      @click="tab = 'leads'" 
+      :class="tab === 'leads' ? 'bg-navy-950 dark:bg-amber-500 text-white dark:text-navy-950 font-bold' : 'bg-white dark:bg-navy-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 font-medium'"
+      class="px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-sm shrink-0 whitespace-nowrap">
+      Client Inquiries & Site Visits ({{.Data.Stats.TotalLeads}})
+    </button>
+  </div>
+
+  <div x-show="tab === 'inventory'" class="space-y-4">
+
+    <div class="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between transition-colors">
+      <div class="w-full md:w-96 relative">
+        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input 
+          type="text" 
+          x-model="search" 
+          placeholder="Filter by title, location, city, developer..." 
+          class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all"
+        >
+      </div>
+
+      <div class="flex items-center justify-between sm:justify-end gap-3 w-full md:w-auto">
+        <select 
+          x-model="filterType"
+          class="px-3 py-2 text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all font-medium text-slate-700 dark:text-slate-200">
+          <option value="all">All Property Types</option>
+          <option value="apartment">Apartment</option>
+          <option value="villa">Villa</option>
+          <option value="penthouse">Penthouse</option>
+          <option value="commercial">Commercial</option>
+        </select>
+        <span class="text-xs text-slate-400 dark:text-slate-500 hidden sm:inline">Real-time filter</span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[760px]">
+          <thead>
+            <tr class="bg-slate-50/80 dark:bg-navy-950/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <th class="py-3.5 px-4 sm:px-6">Property Listing</th>
+              <th class="py-3.5 px-4">Configuration</th>
+              <th class="py-3.5 px-4">Price & Valuation</th>
+              <th class="py-3.5 px-4">Status & Features</th>
+              <th class="py-3.5 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            {{range .Data.Properties}}
+            <tr 
+              x-show="(search === '' || '{{lower .Title}} {{lower .Location}} {{lower .City}} {{lower .Developer}} {{lower .ID}}'.includes(search.toLowerCase())) && (filterType === 'all' || '{{lower .Type}}'.includes(filterType))"
+              class="hover:bg-slate-50/80 dark:hover:bg-navy-800/50 transition-colors group">
+
+              <td class="py-4 px-4 sm:px-6">
+                <div class="flex items-center gap-3.5">
+                  <img src="{{.Image}}" alt="{{.Title}}" class="w-16 h-12 rounded-lg object-cover flex-shrink-0 bg-slate-100 dark:bg-navy-950 border border-slate-200 dark:border-slate-800">
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs font-mono font-semibold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-navy-950 px-1.5 py-0.5 rounded">{{.ID}}</span>
+                      <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{if eq .Transaction "Rent"}}bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400{{else}}bg-slate-100 dark:bg-navy-800 text-slate-700 dark:text-slate-300{{end}}">
+                        {{.Transaction}}
+                      </span>
+                    </div>
+                    <a href="/properties/{{.Slug}}" target="_blank" class="font-bold text-navy-950 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors truncate block max-w-xs sm:max-w-sm mt-0.5">
+                      {{.Title}}
+                    </a>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1 mt-0.5">
+                      <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                      {{.Location}}, {{.City}}
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <td class="py-4 px-4">
+                <div class="text-xs space-y-0.5">
+                  <p class="font-semibold text-slate-800 dark:text-slate-200">{{.Type}} <span class="text-slate-400 font-normal">({{.SubType}})</span></p>
+                  <p class="text-slate-500 dark:text-slate-400">{{.Bedrooms}} BHK • {{.Bathrooms}} Baths</p>
+                  <p class="text-slate-400 dark:text-slate-500 font-mono">{{.Area}} sq.ft.</p>
+                </div>
+              </td>
+
+              <td class="py-4 px-4">
+                <div>
+                  <p class="font-bold text-navy-950 dark:text-white">{{.PriceDisplay}}</p>
+                  <p class="text-xs text-slate-400 dark:text-slate-500">{{.PricePerSqFt}}</p>
+                </div>
+              </td>
+
+              <td class="py-4 px-4">
+                <div class="flex flex-col gap-1.5 items-start">
+                  {{template "admin_featured_badge" .}}
+                  <span class="inline-flex items-center text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    {{if .Verified}}
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span> Verified
+                    {{else}}
+                      <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600 mr-1.5"></span> Standard
+                    {{end}}
+                  </span>
+                </div>
+              </td>
+
+              <td class="py-4 px-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  
+                  <a 
+                    href="/properties/{{.Slug}}" 
+                    target="_blank" 
+                    class="p-2 text-slate-400 hover:text-navy-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-navy-800 rounded-lg transition-colors"
+                    title="View live listing">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </a>
+
+                  <a 
+                    href="/admin/properties/edit/{{.ID}}" 
+                    class="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-navy-800 rounded-lg transition-colors font-medium text-xs flex items-center gap-1"
+                    title="Edit property">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                  </a>
+
+                  <button 
+                    type="button"
+                    hx-post="/admin/properties/delete/{{.ID}}"
+                    hx-confirm="Are you sure you want to permanently delete '{{.Title}}'?"
+                    hx-target="closest tr"
+                    hx-swap="outerHTML swap:400ms"
+                    class="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-navy-800 rounded-lg transition-colors font-medium text-xs flex items-center gap-1 cursor-pointer"
+                    title="Delete property">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div x-show="tab === 'leads'" class="space-y-4" style="display: none;">
+    <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+      <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-navy-950 dark:text-white">Recent Client Inquiries & Site Visits</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Inquiries submitted via consultation, contact, and property detail pages.</p>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 dark:bg-navy-950 rounded-lg text-slate-600 dark:text-slate-300">
+          Showing {{len .Data.Leads}} most recent
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[700px]">
+          <thead>
+            <tr class="bg-slate-50/80 dark:bg-navy-950/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <th class="py-3 px-4 sm:px-6">Date / Time</th>
+              <th class="py-3 px-4">Client Contact</th>
+              <th class="py-3 px-4">Inquiry Category</th>
+              <th class="py-3 px-4">Property Interest</th>
+              <th class="py-3 px-4">Client Message / Notes</th>
+              <th class="py-3 px-4 text-right">Quick Contact</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            {{if .Data.Leads}}
+              {{range .Data.Leads}}
+              <tr class="hover:bg-slate-50/80 dark:hover:bg-navy-800/50 transition-colors">
+                <td class="py-3.5 px-4 sm:px-6 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  {{if not .CreatedAt.IsZero}}
+                    {{.CreatedAt.Format "02 Jan 2006, 15:04"}}
+                  {{else}}
+                    Recent
+                  {{end}}
+                </td>
+
+                <td class="py-3.5 px-4">
+                  <div class="font-bold text-navy-950 dark:text-white">{{.Name}}</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                    <a href="tel:{{.Phone}}" class="hover:text-amber-600 dark:hover:text-amber-400 font-mono">{{.Phone}}</a>
+                    {{if .Email}}
+                      <span>•</span>
+                      <a href="mailto:{{.Email}}" class="hover:text-amber-600 dark:hover:text-amber-400">{{.Email}}</a>
+                    {{end}}
+                  </div>
+                </td>
+
+                <td class="py-3.5 px-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-semibold {{if eq .Type "site_visit"}}bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400{{else if eq .Type "valuation_request"}}bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400{{else}}bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-400{{end}}">
+                    {{if eq .Type "site_visit"}}Site Visit Request{{else if eq .Type "valuation_request"}}Valuation Request{{else}}Direct Advisory{{end}}
+                  </span>
+                  {{if .PreferredDate}}
+                  <p class="text-[11px] text-slate-400 mt-1">Date: {{.PreferredDate}}</p>
+                  {{end}}
+                </td>
+
+                <td class="py-3.5 px-4 text-xs font-medium text-slate-700 dark:text-slate-300">
+                  {{if .PropertyTitle}}
+                    <span class="text-navy-950 dark:text-white font-semibold">{{.PropertyTitle}}</span>
+                  {{else if .PropertyID}}
+                    <span class="font-mono text-slate-500 dark:text-slate-400">{{.PropertyID}}</span>
+                  {{else}}
+                    <span class="text-slate-400">General Consultation</span>
+                  {{end}}
+                </td>
+
+                <td class="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-300 max-w-xs truncate">
+                  {{if .Message}}{{.Message}}{{else}}<span class="text-slate-400 italic">No additional message provided</span>{{end}}
+                </td>
+
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <a 
+                      href="https://wa.me/{{.Phone}}" 
+                      target="_blank" 
+                      class="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors">
+                      WhatsApp
+                    </a>
+                    <a 
+                      href="tel:{{.Phone}}" 
+                      class="px-2.5 py-1 bg-slate-100 dark:bg-navy-950 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-navy-800 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors">
+                      Call
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {{end}}
+            {{else}}
+              <tr>
+                <td colspan="6" class="py-8 text-center text-slate-400 text-sm">
+                  No inquiries received yet. Inquiries submitted via client forms will appear here.
+                </td>
+              </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{end}}

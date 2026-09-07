@@ -1,0 +1,101 @@
+{{define "meta"}}
+<title>Luxury Executive Apartments & Villas for Rent in India | Dharavath Agency</title>
+<meta name="description" content="Discover curated luxury rental homes, furnished penthouses, and executive residences in prime tech hubs across Hyderabad, Bengaluru, and Mumbai.">
+<meta name="keywords" content="luxury apartments for rent Hyderabad, executive homes Bangalore, furnished penthouse Mumbai, corporate lease apartments India">
+<link rel="canonical" href="https://dharavathagency.in/rent">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dharavathagency.in/rent">
+<meta property="og:title" content="Luxury Executive Apartments & Villas for Rent in India | Dharavath Agency">
+<meta property="og:description" content="Curated luxury rental homes, furnished penthouses, and executive residences across top Indian metros.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://dharavathagency.in/rent">
+<meta name="twitter:title" content="Luxury Executive Apartments & Villas for Rent in India | Dharavath Agency">
+<meta name="twitter:description" content="Curated luxury rental homes, furnished penthouses, and executive residences across top Indian metros.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://dharavathagency.in/rent#page",
+      "url": "https://dharavathagency.in/rent",
+      "name": "Luxury Executive Apartments & Villas for Rent in India",
+      "description": "Curated luxury rental homes, furnished penthouses, and executive residences."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://dharavathagency.in"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Rent",
+          "item": "https://dharavathagency.in/rent"
+        }
+      ]
+    }
+  ]
+}
+</script>
+{{end}}
+
+{{define "content"}}
+<div class="py-8 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <div class="max-w-3xl mb-12">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/60 text-xs font-bold mb-3">
+      <span>Corporate Relocation & Luxury Rentals</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-navy-900 dark:text-white font-serif tracking-tight">
+      Executive Residences & Fully Furnished Rentals
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+      Curated residential leases in prime gated communities close to major tech clusters and financial corridors in Hyderabad, Bengaluru, and Mumbai.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+    <div class="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+      <h3 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Transparent Security Deposits</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Zero arbitrary deductions. Standardized lease agreements with fixed escalation covenants.</p>
+    </div>
+    <div class="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+      <h3 class="font-bold text-navy-900 dark:text-white text-sm mb-1">100% Designer Furnished</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Premium appliances, imported woodwork, high-speed fiber lines, and full power backup.</p>
+    </div>
+    <div class="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+      <h3 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Corporate Billing & Lease Compliance</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Complete GST invoicing, registered rent agreements, and municipal NOC handholding.</p>
+    </div>
+  </div>
+
+  <div class="mb-14">
+    <div class="flex justify-between items-end mb-6">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Available Homes</span>
+        <h2 class="text-xl sm:text-3xl font-bold text-navy-900 dark:text-white font-serif">
+          Curated Rental Portfolio
+        </h2>
+      </div>
+      <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">{{len .Data.Properties}} Active Listings</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {{range .Data.Properties}}
+        {{template "property_card" .}}
+      {{end}}
+    </div>
+  </div>
+
+</div>
+{{end}}

@@ -1,0 +1,284 @@
+{{define "meta"}}
+<title>Verified Luxury Properties for Sale & Rent in India | Dharavath Agency</title>
+<meta name="description" content="Explore RERA-verified luxury apartments, villas, and commercial spaces across Hyderabad, Bengaluru, Mumbai, and Gurugram. Direct developer pricing with zero brokerage options.">
+<meta name="keywords" content="luxury apartments India, verified properties Hyderabad, villas for sale Bengaluru, commercial real estate Mumbai, RERA approved projects">
+<link rel="canonical" href="https://dharavathagency.in/properties">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dharavathagency.in/properties">
+<meta property="og:title" content="Verified Luxury Properties for Sale & Rent in India | Dharavath Agency">
+<meta property="og:description" content="Explore RERA-verified luxury apartments, villas, and commercial spaces across top Indian metros.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://dharavathagency.in/properties">
+<meta name="twitter:title" content="Verified Luxury Properties for Sale & Rent in India | Dharavath Agency">
+<meta name="twitter:description" content="Explore RERA-verified luxury apartments, villas, and commercial spaces across top Indian metros.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://dharavathagency.in/properties#page",
+      "url": "https://dharavathagency.in/properties",
+      "name": "Verified Luxury Properties in India",
+      "description": "Explore RERA-verified luxury apartments, villas, and commercial spaces across top Indian metros.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://dharavathagency.in"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Properties",
+            "item": "https://dharavathagency.in/properties"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Featured Indian Luxury Listings",
+      "numberOfItems": {{len .Data.Properties}},
+      "itemListElement": [
+        {{range $index, $prop := .Data.Properties}}
+        {{if $index}},{{end}}
+        {
+          "@type": "ListItem",
+          "position": {{add $index 1}},
+          "url": "https://dharavathagency.in/properties/{{$prop.Slug}}",
+          "name": {{printf "%q" $prop.Title}}
+        }
+        {{end}}
+      ]
+    }
+  ]
+}
+</script>
+{{end}}
+
+{{define "content"}}
+<div class="py-6 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+  <div class="mb-6 sm:mb-8">
+    <nav class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-3 font-medium" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-navy-900 dark:hover:text-amber-400 transition-colors">Home</a>
+      <span class="text-slate-400">/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold" aria-current="page">Properties</span>
+    </nav>
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-navy-900 dark:text-white font-serif tracking-tight">
+          Discover Verified Indian Real Estate
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+          Showing verified residential and commercial assets with complete title checks and RERA transparency.
+        </p>
+      </div>
+      <div class="shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <span id="results-count" class="px-3 py-1.5 rounded-full bg-slate-200/80 dark:bg-navy-800 text-navy-950 dark:text-amber-400 font-mono font-bold inline-block border border-slate-300/50 dark:border-slate-700/60">
+          {{len .Data.Properties}} Properties Available
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div x-data="{ filtersOpen: false }" class="mb-8">
+    <form 
+      id="filter-form"
+      hx-get="/properties/search" 
+      hx-target="#properties-results-grid" 
+      hx-indicator="#search-loading"
+      hx-push-url="true"
+      class="bg-white dark:bg-navy-900/90 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-4 sm:p-6 shadow-sm space-y-4 transition-colors"
+    >
+      
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input 
+          type="text" 
+          name="q" 
+          value="{{.Data.Filter.Query}}"
+          placeholder="Search by project name, locality, developer (e.g. Kokapet, Prestige, Villa)..."
+          hx-trigger="keyup changed delay:300ms, search"
+          class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-colors"
+        >
+        
+        <div id="search-loading" class="htmx-indicator absolute inset-y-0 right-0 pr-4 flex items-center">
+          <svg class="animate-spin h-5 w-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs font-semibold">
+        <span class="text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wider shrink-0 hidden sm:inline">Popular:</span>
+        <a href="/properties" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">All</a>
+        <a href="/properties?city=Hyderabad" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Hyderabad</a>
+        <a href="/properties?city=Bengaluru" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Bengaluru</a>
+        <a href="/properties?city=Mumbai" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Mumbai</a>
+        <a href="/properties?type=Villa" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Villas</a>
+        <a href="/properties?type=Penthouse" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Penthouses</a>
+        <a href="/properties?possession=Ready" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-700 dark:text-slate-300 shrink-0 transition-colors">Ready to Move</a>
+      </div>
+
+      <button 
+        type="button" 
+        @click="filtersOpen = !filtersOpen" 
+        class="lg:hidden w-full py-2.5 px-4 bg-slate-50 dark:bg-navy-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-navy-950 dark:text-white flex items-center justify-between transition-colors">
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          <span>Detailed Filter Criteria</span>
+        </span>
+        <span class="text-slate-400 dark:text-slate-400" x-text="filtersOpen ? '▲ Hide Filters' : '▼ Show Filters'">▼ Show Filters</span>
+      </button>
+
+      <div 
+        :class="filtersOpen ? 'grid' : 'hidden lg:grid'" 
+        class="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs pt-1 border-t border-slate-100 dark:border-slate-800 lg:border-t-0"
+      >
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">Transaction</label>
+          <select 
+            name="transaction" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="">All Transactions</option>
+            <option value="Sale" {{if eq .Data.Filter.Transaction "Sale"}}selected{{end}}>Buy / Sale</option>
+            <option value="Rent" {{if eq .Data.Filter.Transaction "Rent"}}selected{{end}}>Rent / Lease</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">City</label>
+          <select 
+            name="city" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="">All Metros</option>
+            <option value="Hyderabad" {{if eq .Data.Filter.City "Hyderabad"}}selected{{end}}>Hyderabad</option>
+            <option value="Bengaluru" {{if eq .Data.Filter.City "Bengaluru"}}selected{{end}}>Bengaluru</option>
+            <option value="Mumbai" {{if eq .Data.Filter.City "Mumbai"}}selected{{end}}>Mumbai</option>
+            <option value="Gurugram" {{if eq .Data.Filter.City "Gurugram"}}selected{{end}}>Gurugram (NCR)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">Property Type</label>
+          <select 
+            name="type" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="">All Asset Types</option>
+            <option value="Apartment" {{if eq .Data.Filter.Type "Apartment"}}selected{{end}}>Apartments</option>
+            <option value="Villa" {{if eq .Data.Filter.Type "Villa"}}selected{{end}}>Luxury Villas</option>
+            <option value="Penthouse" {{if eq .Data.Filter.Type "Penthouse"}}selected{{end}}>Sky Penthouses</option>
+            <option value="Commercial" {{if eq .Data.Filter.Type "Commercial"}}selected{{end}}>Commercial Floors</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">Bedrooms (BHK)</label>
+          <select 
+            name="bhk" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="">Any BHK</option>
+            <option value="2" {{if eq .Data.Filter.Bedrooms 2}}selected{{end}}>2 BHK</option>
+            <option value="3" {{if eq .Data.Filter.Bedrooms 3}}selected{{end}}>3 BHK</option>
+            <option value="4" {{if eq .Data.Filter.Bedrooms 4}}selected{{end}}>4 BHK</option>
+            <option value="5" {{if eq .Data.Filter.Bedrooms 5}}selected{{end}}>5+ BHK / Villa</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">Possession Status</label>
+          <select 
+            name="possession" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="">Any Status</option>
+            <option value="Ready" {{if contains .Data.Filter.Possession "Ready"}}selected{{end}}>Ready to Move</option>
+            <option value="Construction" {{if contains .Data.Filter.Possession "Construction"}}selected{{end}}>Under Construction</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 text-[10px]">Sort Results</label>
+          <select 
+            name="sort" 
+            hx-trigger="change" 
+            class="w-full px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-base sm:text-sm text-slate-700 dark:text-slate-200 font-medium focus:ring-1 focus:ring-amber-500 outline-none bg-slate-50 dark:bg-navy-950 transition-colors"
+          >
+            <option value="featured">Featured First</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="area_desc">Super Area: Largest</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+        <label class="flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-300 font-medium">
+          <input 
+            type="checkbox" 
+            name="rera" 
+            value="true" 
+            hx-trigger="change"
+            {{if .Data.Filter.ReraOnly}}checked{{end}}
+            class="rounded text-amber-500 focus:ring-amber-400 dark:bg-navy-950 dark:border-slate-700"
+          >
+          <span>Only RERA Registered Listings</span>
+        </label>
+
+        <a 
+          href="/properties" 
+          class="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 font-semibold transition-colors"
+        >
+          Reset All Filters
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div id="properties-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    {{if .Data.Properties}}
+      {{range .Data.Properties}}
+        {{template "property_card" .}}
+      {{end}}
+    {{else}}
+      <div class="col-span-full py-16 text-center bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto text-2xl font-bold">
+          !
+        </div>
+        <h3 class="text-xl font-bold text-navy-900 dark:text-white font-serif">No Matching Properties Found</h3>
+        <p class="text-slate-500 dark:text-slate-400 text-sm max-w-md mx-auto">
+          We couldn't find any properties matching your exact filter criteria. Try broadening your city or price filters.
+        </p>
+        <a href="/properties" class="inline-block px-6 py-2.5 rounded-xl bg-navy-900 dark:bg-amber-500 text-white dark:text-navy-950 font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+          Clear All Filters
+        </a>
+      </div>
+    {{end}}
+  </div>
+
+</div>
+{{end}}

@@ -1,0 +1,69 @@
+{{define "project_card"}}
+<div class="group bg-white dark:bg-navy-900/95 rounded-2xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-black/40 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+  <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+    <img 
+      src="{{.Image}}" 
+      alt="{{.Name}}" 
+      loading="lazy" 
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+    >
+    <div class="absolute top-3 left-3 flex gap-1.5">
+      <span class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-navy-900 text-amber-400 border border-amber-400/30 shadow-sm">
+        {{.Badge}}
+      </span>
+    </div>
+    <div class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/70 to-transparent"></div>
+    <div class="absolute bottom-2.5 left-3 text-white text-xs font-semibold truncate pr-3">
+      {{.Location}}
+    </div>
+  </div>
+
+  <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+    <div>
+      <div class="flex justify-between items-start mb-1">
+        <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">{{.Developer}}</span>
+        <span class="font-mono text-[10px] text-slate-400 dark:text-slate-500">{{.ID}}</span>
+      </div>
+      <h3 class="text-lg font-bold text-navy-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+        {{.Name}}
+      </h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+        {{.Overview}}
+      </p>
+
+      <div class="grid grid-cols-2 gap-2 mt-4 p-3 bg-slate-50 dark:bg-navy-950/80 rounded-xl text-xs border border-slate-100 dark:border-slate-800">
+        <div>
+          <span class="block text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">Starting From</span>
+          <span class="font-extrabold text-navy-900 dark:text-amber-400 text-sm font-serif">{{.StartingPrice}}</span>
+        </div>
+        <div>
+          <span class="block text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">Configuration</span>
+          <span class="font-bold text-slate-800 dark:text-slate-200">{{.Configuration}}</span>
+        </div>
+        <div class="col-span-2 pt-2 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-600 dark:text-slate-300">
+          <span>Possession: <strong class="text-slate-800 dark:text-white">{{.PossessionDate}}</strong></span>
+          <span class="text-emerald-700 dark:text-emerald-400 font-semibold">RERA Approved</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2 pt-1">
+      <button 
+        type="button" 
+        @click="openLead('Inquire About {{.Name}}', '{{.ID}}', '{{.Name}}')"
+        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-navy-900 hover:bg-navy-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white transition-all text-center"
+      >
+        Download Brochure
+      </button>
+      <a 
+        href="{{whatsappURL (printf "Hi Dharavath Agency, I would like to download the brochure and schedule a site visit for %s by %s in %s." .Name .Developer .Location)}}" 
+        target="_blank" 
+        rel="noopener"
+        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800/60 transition-all text-center flex items-center justify-center gap-1"
+      >
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</div>
+{{end}}

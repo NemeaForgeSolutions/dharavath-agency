@@ -1,0 +1,220 @@
+{{define "meta"}}
+<title>Sell & Value Luxury Real Estate in India | Free Valuation | Dharavath Agency</title>
+<meta name="description" content="List your luxury residence or commercial asset with Dharavath Agency. Targeted marketing to verified HNWIs, NRI investors, and corporate buyers with total confidentiality.">
+<meta name="keywords" content="sell luxury property India, luxury home valuation Hyderabad, sell villa Bangalore, real estate valuation Mumbai">
+<link rel="canonical" href="https://dharavathagency.in/sell">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dharavathagency.in/sell">
+<meta property="og:title" content="Sell & Value Luxury Real Estate in India | Dharavath Agency">
+<meta property="og:description" content="List your luxury residence or commercial asset with Dharavath Agency. Targeted marketing to verified HNWIs and NRI investors.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://dharavathagency.in/sell">
+<meta name="twitter:title" content="Sell & Value Luxury Real Estate in India | Dharavath Agency">
+<meta name="twitter:description" content="List your luxury residence or commercial asset with Dharavath Agency. Targeted marketing to verified HNWIs and NRI investors.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://dharavathagency.in/sell#page",
+      "url": "https://dharavathagency.in/sell",
+      "name": "List Your Luxury Asset with Dharavath Agency",
+      "description": "Targeted marketing to pre-screened accredited buyers, CXOs, NRI families, and institutional funds."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://dharavathagency.in"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Sell",
+          "item": "https://dharavathagency.in/sell"
+        }
+      ]
+    }
+  ]
+}
+</script>
+{{end}}
+
+{{define "content"}}
+<div class="py-8 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <div class="max-w-3xl mb-12">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs font-bold mb-3">
+      <span>Exclusive Seller Representation</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-navy-900 dark:text-white font-serif tracking-tight">
+      List Your Luxury Asset with India's Premier Brokerage
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+      Targeted marketing to pre-screened accredited buyers, CXOs, NRI families, and institutional funds with total confidentiality and legal accuracy.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+
+    <div 
+      x-data="{
+        city: 'Hyderabad',
+        area: 3000,
+        type: 'Apartment',
+        rates: {
+          'Hyderabad': { 'Apartment': 9500, 'Villa': 14000, 'Penthouse': 13000, 'Commercial': 10500 },
+          'Bengaluru': { 'Apartment': 11000, 'Villa': 15500, 'Penthouse': 14500, 'Commercial': 12000 },
+          'Mumbai': { 'Apartment': 32000, 'Villa': 45000, 'Penthouse': 42000, 'Commercial': 28000 },
+          'Gurugram': { 'Apartment': 14000, 'Villa': 18000, 'Penthouse': 17000, 'Commercial': 13500 }
+        },
+        get ratePerSqFt() {
+          const cityRates = this.rates[this.city] || this.rates['Hyderabad'];
+          return cityRates[this.type] || 10000;
+        },
+        get estimatedValuation() {
+          return this.area * this.ratePerSqFt;
+        },
+        formatINR(amount) {
+          if (amount >= 10000000) return '₹' + (amount / 10000000).toFixed(2) + ' Cr';
+          if (amount >= 100000) return '₹' + (amount / 100000).toFixed(2) + ' Lakh';
+          return '₹' + amount.toLocaleString('en-IN');
+        }
+      }"
+      class="bg-navy-950 text-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-800 space-y-6"
+    >
+      <div class="border-b border-slate-800 pb-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-400 block">Instant Market Check</span>
+        <h2 class="text-xl font-bold font-serif mt-1">Free Property Valuation Estimator</h2>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Select City</label>
+          <select x-model="city" class="w-full px-3.5 py-2.5 rounded-xl bg-navy-900 border border-slate-700 text-white text-base sm:text-sm focus:ring-2 focus:ring-amber-400 outline-none">
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Gurugram">Gurugram (NCR)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Asset Category</label>
+          <select x-model="type" class="w-full px-3.5 py-2.5 rounded-xl bg-navy-900 border border-slate-700 text-white text-base sm:text-sm focus:ring-2 focus:ring-amber-400 outline-none">
+            <option value="Apartment">Apartment</option>
+            <option value="Villa">Independent Villa</option>
+            <option value="Penthouse">Sky Penthouse</option>
+            <option value="Commercial">Commercial Space</option>
+          </select>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-300">Super Built-Up Area:</span>
+            <span class="text-amber-400 font-bold font-mono" x-text="area + ' sq.ft.'"></span>
+          </div>
+          <input type="range" min="1000" max="15000" step="250" x-model.number="area" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+        </div>
+      </div>
+
+      <div class="p-4 bg-navy-900 rounded-xl border border-slate-800 text-center">
+        <span class="text-xs text-slate-400 block uppercase font-bold">Estimated Market Value</span>
+        <span class="text-3xl sm:text-4xl font-black text-amber-400 font-serif mt-1 block" x-text="formatINR(estimatedValuation)"></span>
+        <span class="text-[11px] text-slate-400 block mt-1" x-text="'Avg Benchmark: ₹' + ratePerSqFt.toLocaleString('en-IN') + '/sq.ft.'"></span>
+      </div>
+
+      <p class="text-[11px] text-slate-400 text-center italic">
+        * Based on current registered RERA transaction data. Get a personalized comparative market analysis (CMA) report below.
+      </p>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 transition-colors">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block mb-1">Confidential Listing</span>
+        <h2 class="text-xl font-bold text-navy-900 dark:text-white font-serif">Request a Comprehensive Valuation Report</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Our principal advisor will deliver a verified title assessment and buyer appetite report.</p>
+      </div>
+
+      <div id="seller-inquiry-response">
+        <form 
+          hx-post="/api/leads" 
+          hx-target="#seller-inquiry-response" 
+          hx-swap="innerHTML"
+          class="space-y-4"
+        >
+          <input type="hidden" name="type" value="valuation_request">
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Owner Name *</label>
+            <input type="text" name="name" required placeholder="e.g. Sanjay Singhania" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Mobile / WhatsApp *</label>
+              <input type="tel" name="phone" required placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Email Address</label>
+              <input type="email" name="email" placeholder="owner@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 mb-1">Property Details & Location *</label>
+            <input type="text" name="message" required placeholder="e.g. 4 BHK Villa in Road 45 Jubilee Hills, 5200 sq.ft." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-navy-950 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 cursor-pointer"
+          >
+            Submit for Confidential Valuation
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rounded-2xl bg-slate-100/80 dark:bg-navy-900/50 p-8 sm:p-12 border border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Execution Roadmap</span>
+      <h2 class="text-2xl font-bold text-navy-900 dark:text-white font-serif">How We Market Your Asset</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="p-5 bg-white dark:bg-navy-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <span class="text-amber-500 font-serif font-black text-xl block mb-2">01</span>
+        <h4 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Title & Value Audit</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Verification of EC, encumbrances, OC, and carpet area calculations against market data.</p>
+      </div>
+      <div class="p-5 bg-white dark:bg-navy-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <span class="text-amber-500 font-serif font-black text-xl block mb-2">02</span>
+        <h4 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Bespoke Media</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">High-resolution architectural cinematography, drone captures, and verified 2D/3D floor layouts.</p>
+      </div>
+      <div class="p-5 bg-white dark:bg-navy-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <span class="text-amber-500 font-serif font-black text-xl block mb-2">03</span>
+        <h4 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Buyer Pre-Qualification</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">We pre-screen proof of funds and financial capabilities before scheduling private site visits.</p>
+      </div>
+      <div class="p-5 bg-white dark:bg-navy-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <span class="text-amber-500 font-serif font-black text-xl block mb-2">04</span>
+        <h4 class="font-bold text-navy-900 dark:text-white text-sm mb-1">Seamless Closing</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Drafting sale agreements, handling escrow deposit accounts, and assisting at the sub-registrar office.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{end}}

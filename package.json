@@ -1,0 +1,13 @@
+{
+  "name": "dharavath-agency",
+  "version": "1.0.0",
+  "description": "Enterprise Go + HTMX + Alpine Real Estate Application with Tailwind CSS",
+  "scripts": {
+    "build:css": "tailwindcss -i ./web/static/css/input.css -o ./web/static/css/styles.css --minify",
+    "watch:css": "tailwindcss -i ./web/static/css/input.css -o ./web/static/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

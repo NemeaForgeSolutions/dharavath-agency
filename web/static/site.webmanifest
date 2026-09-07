@@ -1,0 +1,17 @@
+{
+  "name": "Dharavath Agency - Curated Indian Real Estate",
+  "short_name": "Dharavath",
+  "description": "Ethical Indian real estate brokerage specializing in luxury homes, apartments, villas, and Grade-A commercial spaces.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#040d16",
+  "theme_color": "#040d16",
+  "icons": [
+    {
+      "src": "/static/img/favicon.svg",
+      "sizes": "64x64 128x128 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,342 @@
+{{define "meta"}}
+<title>Dharavath Agency | Luxury Indian Real Estate Advisory & Verified RERA Properties</title>
+<meta name="description" content="India's premier luxury real estate advisory. Curated high-end apartments, villas, and commercial assets in Hyderabad, Bengaluru, Mumbai, and Gurugram with 100% verified titles.">
+<meta name="keywords" content="luxury real estate India, verified luxury apartments Hyderabad, prime villas Bengaluru, Mumbai luxury penthouses, commercial real estate Gurugram, RERA registered brokerage">
+<link rel="canonical" href="https://dharavathagency.in">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dharavathagency.in">
+<meta property="og:title" content="Dharavath Agency | Luxury Indian Real Estate Advisory">
+<meta property="og:description" content="Curated residential estates, sky penthouses, and Grade-A commercial corridors across top Indian metros with 40-point legal due diligence.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://dharavathagency.in">
+<meta name="twitter:title" content="Dharavath Agency | Luxury Indian Real Estate Advisory">
+<meta name="twitter:description" content="Curated residential estates, sky penthouses, and Grade-A commercial corridors across top Indian metros with 40-point legal due diligence.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80">
+{{end}}
+
+{{define "content"}}
+
+<section class="relative min-h-[640px] lg:min-h-[740px] flex items-center bg-navy-950 text-white overflow-hidden">
+  
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85" 
+      alt="Luxury Indian Architecture" 
+      class="w-full h-full object-cover opacity-35 scale-105 transform motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+    >
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/80 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/60 to-transparent"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <div class="max-w-3xl space-y-6">
+
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-900/90 border border-amber-400/30 text-xs font-semibold backdrop-blur-md shadow-lg">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-amber-400">100% RERA Registered Brokerage</span>
+        <span class="text-slate-400">·</span>
+        <span class="text-slate-200">Hyderabad, Bengaluru & Mumbai</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-serif tracking-tight text-white leading-[1.15]">
+        Curated Indian Real Estate. <br class="hidden sm:inline">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500">
+          Verified Titles.
+        </span> Zero Compromise.
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+        Advising high-net-worth families, CXOs, and NRI investors on prime residential estates, sky penthouses, and Grade-A commercial corridors with 40-point legal due diligence.
+      </p>
+
+      <div 
+        x-data="{ tab: 'Sale' }"
+        class="mt-8 bg-white/10 backdrop-blur-xl border border-white/20 p-3 sm:p-5 rounded-2xl shadow-2xl"
+      >
+        
+        <div class="flex items-center gap-2 border-b border-white/15 pb-3 mb-4 overflow-x-auto no-scrollbar flex-nowrap">
+          <button 
+            type="button" 
+            @click="tab = 'Sale'"
+            :class="tab === 'Sale' ? 'bg-white text-navy-950 shadow-md font-bold' : 'text-slate-300 hover:text-white'"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0"
+          >
+            Buy Properties
+          </button>
+          <button 
+            type="button" 
+            @click="tab = 'Rent'"
+            :class="tab === 'Rent' ? 'bg-white text-navy-950 shadow-md font-bold' : 'text-slate-300 hover:text-white'"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0"
+          >
+            Rent Luxury
+          </button>
+          <button 
+            type="button" 
+            @click="tab = 'Commercial'"
+            :class="tab === 'Commercial' ? 'bg-white text-navy-950 shadow-md font-bold' : 'text-slate-300 hover:text-white'"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0"
+          >
+            Commercial Offices
+          </button>
+          <a 
+            href="/new-projects" 
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-amber-400 transition-all whitespace-nowrap shrink-0"
+          >
+            New Launches →
+          </a>
+        </div>
+
+        <form action="/properties" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <input type="hidden" name="transaction" :value="tab">
+
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">City / Region</label>
+            <select name="city" class="w-full px-3 py-2.5 rounded-xl bg-navy-900/90 border border-slate-700 text-white text-base sm:text-sm focus:ring-2 focus:ring-amber-400 outline-none">
+              <option value="">All Metros</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Gurugram">Gurugram (NCR)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">Property Type</label>
+            <select name="type" class="w-full px-3 py-2.5 rounded-xl bg-navy-900/90 border border-slate-700 text-white text-base sm:text-sm focus:ring-2 focus:ring-amber-400 outline-none">
+              <option value="">All Asset Types</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Triplex Villa</option>
+              <option value="Penthouse">Sea/Sky Penthouse</option>
+              <option value="Commercial">Commercial Floor</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">Bedrooms (BHK)</label>
+            <select name="bhk" class="w-full px-3 py-2.5 rounded-xl bg-navy-900/90 border border-slate-700 text-white text-base sm:text-sm focus:ring-2 focus:ring-amber-400 outline-none">
+              <option value="">Any Configuration</option>
+              <option value="2">2 BHK</option>
+              <option value="3">3 BHK</option>
+              <option value="4">4 BHK</option>
+              <option value="5">5+ BHK / Villa</option>
+            </select>
+          </div>
+
+          <div class="flex items-end">
+            <button 
+              type="submit" 
+              class="w-full py-3 sm:py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <span>Explore Homes</span>
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="bg-navy-900 border-y border-slate-800 text-white py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <span class="block text-2xl sm:text-4xl font-extrabold text-amber-400 font-serif">₹450+ Cr</span>
+        <span class="text-xs sm:text-sm text-slate-400 font-medium">Verified Assets Advised</span>
+      </div>
+      <div>
+        <span class="block text-2xl sm:text-4xl font-extrabold text-emerald-400 font-serif">100%</span>
+        <span class="text-xs sm:text-sm text-slate-400 font-medium">RERA & Title Due Diligence</span>
+      </div>
+      <div>
+        <span class="block text-2xl sm:text-4xl font-extrabold text-amber-400 font-serif">14+ Yrs</span>
+        <span class="text-xs sm:text-sm text-slate-400 font-medium">Senior Advisory Experience</span>
+      </div>
+      <div>
+        <span class="block text-2xl sm:text-4xl font-extrabold text-white font-serif">4 Metros</span>
+        <span class="text-xs sm:text-sm text-slate-400 font-medium">Hyd · Blr · Mum · NCR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+    <div>
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Handpicked Portfolio</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-navy-900 dark:text-white font-serif tracking-tight">
+        Featured Luxury Listings
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Direct from verified owners and institutional developer partners.</p>
+    </div>
+
+    <div 
+      x-data="{ activeTab: 'all' }"
+      class="flex items-center gap-2 p-1.5 bg-slate-100 dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-x-auto no-scrollbar flex-nowrap sm:flex-wrap transition-colors"
+    >
+      <button 
+        type="button" 
+        @click="activeTab = 'all'"
+        :class="activeTab === 'all' ? 'bg-navy-900 dark:bg-amber-500 text-amber-400 dark:text-navy-950 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+        hx-get="/properties/featured?type=all" 
+        hx-target="#featured-grid" 
+        hx-swap="innerHTML"
+        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap"
+      >
+        All Listings
+      </button>
+      <button 
+        type="button" 
+        @click="activeTab = 'Apartment'"
+        :class="activeTab === 'Apartment' ? 'bg-navy-900 dark:bg-amber-500 text-amber-400 dark:text-navy-950 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+        hx-get="/properties/featured?type=Apartment" 
+        hx-target="#featured-grid" 
+        hx-swap="innerHTML"
+        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap"
+      >
+        Apartments
+      </button>
+      <button 
+        type="button" 
+        @click="activeTab = 'Villa'"
+        :class="activeTab === 'Villa' ? 'bg-navy-900 dark:bg-amber-500 text-amber-400 dark:text-navy-950 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+        hx-get="/properties/featured?type=Villa" 
+        hx-target="#featured-grid" 
+        hx-swap="innerHTML"
+        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap"
+      >
+        Villas
+      </button>
+      <button 
+        type="button" 
+        @click="activeTab = 'Penthouse'"
+        :class="activeTab === 'Penthouse' ? 'bg-navy-900 dark:bg-amber-500 text-amber-400 dark:text-navy-950 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+        hx-get="/properties/featured?type=Penthouse" 
+        hx-target="#featured-grid" 
+        hx-swap="innerHTML"
+        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap"
+      >
+        Penthouses
+      </button>
+    </div>
+  </div>
+
+  <div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    {{range sliceProperties .Data.Featured 0 6}}
+      {{template "property_card" .}}
+    {{end}}
+  </div>
+
+  <div class="mt-12 text-center">
+    <a href="/properties" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-navy-900 hover:bg-navy-800 dark:bg-navy-900 dark:border dark:border-slate-700 dark:hover:border-amber-400/50 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md">
+      <span>View All Properties ({{.Data.TotalListings}} Listings)</span>
+      <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-slate-100/70 dark:bg-navy-900/50 border-y border-slate-200/80 dark:border-slate-800 transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Pre-Launch & Under Construction</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-navy-900 dark:text-white font-serif tracking-tight">
+          Exclusive Developer Launches
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Direct institutional allocations from Prestige, Godrej, and My Home Group.</p>
+      </div>
+      <a href="/new-projects" class="text-xs font-bold uppercase tracking-wider text-navy-900 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 flex items-center gap-1 transition-colors">
+        <span>Explore All Projects</span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {{range .Data.Projects}}
+        {{template "project_card" .}}
+      {{end}}
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-2xl mx-auto mb-14">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block mb-1">Unmatched Due Diligence</span>
+    <h2 class="text-2xl sm:text-4xl font-extrabold text-navy-900 dark:text-white font-serif tracking-tight">
+      The Dharavath Agency Advantage
+    </h2>
+    <p class="text-slate-600 dark:text-slate-400 text-sm mt-2">We represent buyer and tenant interests with institutional legal rigor and full transparency.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {{range .Data.WhyChooseUs}}
+    <div class="p-6 bg-white dark:bg-navy-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all">
+      <span class="text-2xl font-black text-amber-500 font-serif block mb-3">{{.Number}}</span>
+      <h3 class="text-base font-bold text-navy-900 dark:text-white mb-2">{{.Title}}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{{.Desc}}</p>
+    </div>
+    {{end}}
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-navy-950 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-400 block mb-1">Client Trust</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white font-serif tracking-tight">
+        Trusted by High-Net-Worth & NRI Families
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      {{range .Data.Testimonials}}
+      <div class="p-6 sm:p-8 rounded-2xl bg-navy-900 border border-slate-800 flex flex-col justify-between space-y-4">
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed italic">
+          "{{.Quote}}"
+        </p>
+        <div class="pt-4 border-t border-slate-800">
+          <h4 class="font-bold text-white text-sm">{{.Client}}</h4>
+          <span class="text-xs text-amber-400 block">{{.Location}} · {{.Type}}</span>
+          <span class="text-[11px] text-slate-400 block mt-1">Acquired: {{.Property}}</span>
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-20 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900 text-white border-t border-slate-800">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-400 block">Personalized Real Estate Advisory</span>
+    <h2 class="text-3xl sm:text-5xl font-black font-serif tracking-tight">
+      Ready to Find Your Ideal Residence or Commercial Asset?
+    </h2>
+    <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+      Schedule a private site walkthrough in our dedicated luxury chauffeur fleet or request complete title verification reports.
+    </p>
+    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <button 
+        type="button" 
+        @click="openLead('Schedule Site Visit / Advisory Consultation', '', '')"
+        class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-xl transition-all"
+      >
+        Schedule Private Consultation
+      </button>
+      <a 
+        href="{{whatsappURL "Hi Dharavath Agency, I would like to consult an advisor."}}" 
+        target="_blank" 
+        rel="noopener"
+        class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2"
+      >
+        <span>Chat on WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</section>
+{{end}}
