@@ -55,8 +55,8 @@ func LoadConfig() *Config {
 		WriteTimeout:      time.Duration(writeTimeoutSec) * time.Second,
 		IdleTimeout:       time.Duration(idleTimeoutSec) * time.Second,
 		Company: domain.CompanyInfo{
-			Name:      "Dharavath Agency",
-			BrandName: "DHARAVATH <span>AGENCY</span>",
+			Name:      "Aarambha",
+			BrandName: "AARAMBHA <span>AGENCY</span>",
 			Tagline:   "Curated Indian Real Estate & Ethical Advisory",
 			Headquarters: domain.Address{
 				Address: "Level 4, Skyview Corporate Park, Hitec City",
@@ -74,7 +74,7 @@ func LoadConfig() *Config {
 			Phone:            "+91 73869 85852",
 			PhoneRaw:         "+917386985852",
 			WhatsApp:         "917386985852",
-			Email:            "advisory@dharavathagency.in",
+			Email:            "advisory@aarambha.in",
 			Founded:          "Started 1 Year Ago (2025)",
 			EstablishedYear:  2025,
 			ReraBrokerNumber: "RERA Reg. No: A52000012345 (Telangana State Real Estate Regulatory Authority)",

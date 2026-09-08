@@ -5,8 +5,8 @@
   "@graph": [
     {
       "@type": "CollectionPage",
-      "@id": "https://dharavathagency.in/properties#page",
-      "url": "https://dharavathagency.in/properties",
+      "@id": "https://aarambha.in/properties#page",
+      "url": "https://aarambha.in/properties",
       "name": "Verified Luxury Properties in India",
       "description": "Explore RERA-verified luxury apartments, villas, and commercial spaces across top Indian metros.",
       "breadcrumb": {
@@ -16,13 +16,13 @@
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://dharavathagency.in"
+            "item": "https://aarambha.in"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Properties",
-            "item": "https://dharavathagency.in/properties"
+            "item": "https://aarambha.in/properties"
           }
         ]
       }
@@ -37,7 +37,7 @@
         {
           "@type": "ListItem",
           "position": {{add $index 1}},
-          "url": "https://dharavathagency.in/properties/{{$prop.Slug}}",
+          "url": "https://aarambha.in/properties/{{$prop.Slug}}",
           "name": {{printf "%q" $prop.Title}}
         }
         {{end}}

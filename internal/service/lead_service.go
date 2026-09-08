@@ -29,9 +29,9 @@ func (s *LeadService) SubmitLead(lead domain.Lead) (*LeadResult, error) {
 		return nil, fmt.Errorf("failed to save lead: %w", err)
 	}
 
-	waMsg := fmt.Sprintf("Hi Dharavath Agency, I submitted an inquiry. Name: %s, Phone: %s.", lead.Name, lead.Phone)
+	waMsg := fmt.Sprintf("Hi Aarambha, I submitted an inquiry. Name: %s, Phone: %s.", lead.Name, lead.Phone)
 	if lead.PropertyTitle != "" {
-		waMsg = fmt.Sprintf("Hi Dharavath Agency, I just submitted an inquiry regarding %s (%s). Name: %s.", lead.PropertyTitle, lead.PropertyID, lead.Name)
+		waMsg = fmt.Sprintf("Hi Aarambha, I just submitted an inquiry regarding %s (%s). Name: %s.", lead.PropertyTitle, lead.PropertyID, lead.Name)
 	}
 	waURL := fmt.Sprintf("https://wa.me/917386985852?text=%s", url.QueryEscape(waMsg))
 

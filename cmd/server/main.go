@@ -60,7 +60,7 @@ func main() {
 	leadHandler := handler.NewLeadHandler(leadService)
 	adminHandler := handler.NewAdminHandler(propertyService, adminService, catalogService, viewEngine, cfg.Company)
 	authHandler := handler.NewAuthHandler(authService, viewEngine, cfg.Company, cfg.IsProduction())
-	seoHandler := handler.NewSEOHandler(propertyService, catalogService, "https://dharavathagency.in")
+	seoHandler := handler.NewSEOHandler(propertyService, catalogService, "https://aarambha.in")
 	healthHandler := handler.NewHealthHandler(cfg.Env, "1.0.0", propRepo, leadRepo)
 
 	router := deliveryHttp.NewRouter(deliveryHttp.RouterConfig{
@@ -83,7 +83,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("Dharavath Agency enterprise server running on http://%s (Env: %s)",
+		log.Printf("Aarambha enterprise server running on http://%s (Env: %s)",
 			cfg.Addr(), cfg.Env)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Server listen error: %v", err)

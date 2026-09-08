@@ -18,7 +18,7 @@ type SEOHandler struct {
 
 func NewSEOHandler(pService *service.PropertyService, cService *service.CatalogService, baseURL string) *SEOHandler {
 	if baseURL == "" {
-		baseURL = "https://dharavathagency.in"
+		baseURL = "https://aarambha.in"
 	}
 	return &SEOHandler{
 		propertyService: pService,

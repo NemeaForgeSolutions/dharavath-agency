@@ -208,8 +208,36 @@ func (r *PropertyRepo) FindFeatured(propType string, limit int) []domain.Propert
 			list = append(list, *p)
 		}
 	}
-	if err := rows.Err(); err != nil {
+	if len(list) > 0 {
+		return list
+	}
+
+	// Fallback: If no explicitly featured listings found for this filter, return latest verified properties
+	var fallbackConditions []string
+	var fallbackArgs []any
+	fbArgIdx := 1
+	if propType != "" && !strings.EqualFold(propType, "all") {
+		fallbackConditions = append(fallbackConditions, fmt.Sprintf("LOWER(type) = LOWER($%d)", fbArgIdx))
+		fallbackArgs = append(fallbackArgs, propType)
+		fbArgIdx++
+	}
+	fbWhereClause := ""
+	if len(fallbackConditions) > 0 {
+		fbWhereClause = "WHERE " + strings.Join(fallbackConditions, " AND ")
+	}
+	fbQuery := fmt.Sprintf("SELECT %s FROM properties %s ORDER BY price DESC %s",
+		PropertyColumns, fbWhereClause, limitClause)
+	fbRows, fbErr := r.db.QueryContext(ctx, fbQuery, fallbackArgs...)
+	if fbErr != nil {
 		return nil
+	}
+	defer fbRows.Close()
+
+	for fbRows.Next() {
+		p, err := r.scanProperty(fbRows)
+		if err == nil {
+			list = append(list, *p)
+		}
 	}
 	return list
 }

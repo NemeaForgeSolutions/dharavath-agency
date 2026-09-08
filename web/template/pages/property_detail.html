@@ -5,10 +5,10 @@
     "@graph": [
       {
         "@type": "RealEstateListing",
-        "@id": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}#listing",
+        "@id": "https://aarambha.in/properties/{{.Data.Property.Slug}}#listing",
         "name": {{printf "%q" .Data.Property.Title}},
         "description": {{printf "%q" .Data.Property.Description}},
-        "url": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}",
+        "url": "https://aarambha.in/properties/{{.Data.Property.Slug}}",
         "image": {{printf "%q" .Data.Property.Image}},
         "offers": {
           "@type": "Offer",
@@ -27,31 +27,31 @@
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}#breadcrumbs",
+        "@id": "https://aarambha.in/properties/{{.Data.Property.Slug}}#breadcrumbs",
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://dharavathagency.in/"
+            "item": "https://aarambha.in/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Properties",
-            "item": "https://dharavathagency.in/properties"
+            "item": "https://aarambha.in/properties"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": {{printf "%q" .Data.Property.City}},
-            "item": "https://dharavathagency.in/properties?city={{.Data.Property.City}}"
+            "item": "https://aarambha.in/properties?city={{.Data.Property.City}}"
           },
           {
             "@type": "ListItem",
             "position": 4,
             "name": {{printf "%q" .Data.Property.Title}},
-            "item": "https://dharavathagency.in/properties/{{.Data.Property.Slug}}"
+            "item": "https://aarambha.in/properties/{{.Data.Property.Slug}}"
           }
         ]
       }
@@ -439,7 +439,7 @@
     </div>
     <div class="flex items-center gap-2 shrink-0">
       <a 
-        href="{{whatsappURL (printf "Hi Dharavath Agency, I am looking at %s (%s) priced at %s in %s. Please share complete floor plan & arrange a site visit." .Data.Property.Title .Data.Property.ID .Data.Property.PriceDisplay .Data.Property.Location)}}" 
+        href="{{whatsappURL (printf "Hi Aarambha, I am looking at %s (%s) priced at %s in %s. Please share complete floor plan & arrange a site visit." .Data.Property.Title .Data.Property.ID .Data.Property.PriceDisplay .Data.Property.Location)}}" 
         target="_blank" 
         rel="noopener"
         class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800/60 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors"

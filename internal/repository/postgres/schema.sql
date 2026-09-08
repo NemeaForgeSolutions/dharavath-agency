@@ -429,7 +429,7 @@ VALUES
   '+91-9100000002',
   'ananya@dharavath.in',
   9,
-  'Ananya is Dharavath Agency''s Bengaluru market expert, guiding tech professionals and families through Whitefield and Sarjapur Road''s fast-growing residential landscape. Known for unbiased builder comparisons and meticulous documentation support.',
+  'Ananya is Aarambha''s Bengaluru market expert, guiding tech professionals and families through Whitefield and Sarjapur Road''s fast-growing residential landscape. Known for unbiased builder comparisons and meticulous documentation support.',
   '019565e3-0000-7000-8000-000000000001',
   '019565e3-0000-7000-8000-000000000001'
 ),
@@ -1218,7 +1218,7 @@ INSERT INTO testimonials (id, quote, client, location, type, property, property_
 VALUES 
 (
   '019565e3-0006-7000-8000-000000000001',
-  'Dharavath Agency made our transition from the Bay Area to Hyderabad completely seamless. Vikram verified every single title deed, RERA clearance, and negotiated our 4 BHK in Financial District with exceptional professionalism.',
+  'Aarambha made our transition from the Bay Area to Hyderabad completely seamless. Vikram verified every single title deed, RERA clearance, and negotiated our 4 BHK in Financial District with exceptional professionalism.',
   'Dr. Srikanth & Madhavi V.',
   'Jubilee Hills & Sunnyvale, CA',
   'NRI Home Buyers',
@@ -1242,7 +1242,7 @@ VALUES
 ),
 (
   '019565e3-0006-7000-8000-000000000003',
-  'We utilized Dharavath Agency to dispose of an ancestral family parcel in Hyderabad and reinvest into commercial pre-leased office space. Their legal due diligence and tax advisory saved us months of paperwork.',
+  'We utilized Aarambha to dispose of an ancestral family parcel in Hyderabad and reinvest into commercial pre-leased office space. Their legal due diligence and tax advisory saved us months of paperwork.',
   'Harishchandra Prasad',
   'Banjara Hills, Hyderabad',
   'Commercial Real Estate Investor',

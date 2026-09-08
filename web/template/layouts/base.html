@@ -8,7 +8,7 @@
     tailwind = { config: { darkMode: 'class' } };
     (function() {
       try {
-        const stored = localStorage.getItem('dharavath_theme');
+        const stored = localStorage.getItem('aarambha_theme') || localStorage.getItem('dharavath_theme');
         if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         } else {
@@ -30,14 +30,14 @@
   <meta name="keywords" content="Indian real estate, Hyderabad properties, Bangalore apartments, luxury villas Jubilee Hills, Financial District Kokapet, buy house India, RERA verified brokers, commercial office lease">
   <meta name="author" content="{{.Company.Name}}">
 
-  <link rel="canonical" href="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://dharavathagency.in/{{end}}">
+  <link rel="canonical" href="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://aarambha.in/{{end}}">
   <meta name="robots" content="{{if .Robots}}{{.Robots}}{{else}}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{{end}}">
   <meta name="googlebot" content="index, follow">
 
   <meta property="og:locale" content="en_IN">
   <meta property="og:site_name" content="{{.Company.Name}}">
   <meta property="og:type" content="{{if .OGType}}{{.OGType}}{{else}}website{{end}}">
-  <meta property="og:url" content="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://dharavathagency.in/{{end}}">
+  <meta property="og:url" content="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://aarambha.in/{{end}}">
   <meta property="og:title" content="{{if .Title}}{{.Title}} | {{.Company.Name}}{{else}}{{.Company.Name}}{{end}}">
   <meta property="og:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
   <meta property="og:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
@@ -46,8 +46,8 @@
   <meta property="og:image:alt" content="{{if .Title}}{{.Title}}{{else}}{{.Company.Name}}{{end}}">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@DharavathAgency">
-  <meta name="twitter:creator" content="@DharavathAgency">
+  <meta name="twitter:site" content="@AarambhaAgency">
+  <meta name="twitter:creator" content="@AarambhaAgency">
   <meta name="twitter:title" content="{{if .Title}}{{.Title}} | {{.Company.Name}}{{else}}{{.Company.Name}}{{end}}">
   <meta name="twitter:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
   <meta name="twitter:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
@@ -58,10 +58,10 @@
     "@graph": [
       {
         "@type": "RealEstateAgent",
-        "@id": "https://dharavathagency.in/#organization",
+        "@id": "https://aarambha.in/#organization",
         "name": "{{.Company.Name}}",
-        "url": "https://dharavathagency.in",
-        "logo": "https://dharavathagency.in/static/img/favicon.svg",
+        "url": "https://aarambha.in",
+        "logo": "https://aarambha.in/static/img/favicon.svg",
         "image": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
         "description": "{{.Company.Tagline}}",
         "telephone": "{{.Company.Phone}}",
@@ -87,16 +87,16 @@
       },
       {
         "@type": "WebSite",
-        "@id": "https://dharavathagency.in/#website",
-        "url": "https://dharavathagency.in",
+        "@id": "https://aarambha.in/#website",
+        "url": "https://aarambha.in",
         "name": "{{.Company.Name}}",
         "description": "{{.Company.Tagline}}",
         "publisher": {
-          "@id": "https://dharavathagency.in/#organization"
+          "@id": "https://aarambha.in/#organization"
         },
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://dharavathagency.in/properties?q={search_term_string}",
+          "target": "https://aarambha.in/properties?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -126,10 +126,10 @@
       this.darkMode = !this.darkMode;
       if (this.darkMode) {
         document.documentElement.classList.add('dark');
-        localStorage.setItem('dharavath_theme', 'dark');
+        localStorage.setItem('aarambha_theme', 'dark');
       } else {
         document.documentElement.classList.remove('dark');
-        localStorage.setItem('dharavath_theme', 'light');
+        localStorage.setItem('aarambha_theme', 'light');
       }
       window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark: this.darkMode } }));
     },
@@ -139,6 +139,7 @@
     leadModalTitle: 'Schedule Site Visit / Advisory Consultation',
     leadPropertyId: '',
     leadPropertyTitle: '',
+    showScrollTop: false,
     openLead(title, propId, propTitle) {
       this.leadModalTitle = title || 'Schedule Site Visit';
       this.leadPropertyId = propId || '';
@@ -147,6 +148,7 @@
     }
   }"
   @open-lead.window="openLead($event.detail.title, $event.detail.propertyId, $event.detail.propertyTitle)"
+  @scroll.window.passive="showScrollTop = (window.pageYOffset > 300)"
   class="bg-ivory-100 text-ivory-900 dark:bg-onyx-900 dark:text-ivory-100 antialiased selection:bg-champagne-400 selection:text-onyx-900 flex flex-col min-h-screen"
 >
 
@@ -160,7 +162,30 @@
 
   {{template "lead_modal" .}}
 
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <!-- Go to Top Floating Button -->
+  <div class="fixed bottom-6 right-6 z-40">
+    <button
+      type="button"
+      x-show="showScrollTop"
+      x-transition:enter="transition ease-out duration-300 transform"
+      x-transition:enter-start="opacity-0 translate-y-4 scale-75"
+      x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+      x-transition:leave="transition ease-in duration-200 transform"
+      x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+      x-transition:leave-end="opacity-0 translate-y-4 scale-75"
+      @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="w-11 h-11 rounded-2xl bg-onyx-950/90 dark:bg-onyx-800/95 text-champagne-400 hover:text-champagne-300 hover:bg-black dark:hover:bg-onyx-700 border border-champagne-500/30 shadow-xl shadow-black/30 backdrop-blur-md flex items-center justify-center transition-all duration-200 hover:-translate-y-1 active:scale-95 group cursor-pointer"
+      title="Go to Top"
+      aria-label="Go to Top"
+      style="display: none;"
+    >
+      <svg class="w-5 h-5 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <script>
     function showToast(message, type = 'success') {
