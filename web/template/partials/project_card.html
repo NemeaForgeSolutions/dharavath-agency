@@ -1,6 +1,6 @@
 {{define "project_card"}}
-<div class="group bg-white dark:bg-navy-900/95 rounded-2xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-black/40 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
-  <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="group bg-ivory-50 dark:bg-onyx-800 rounded-2xl border border-ivory-200 dark:border-onyx-600 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-black/40 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5">
+  <div class="relative aspect-[16/10] overflow-hidden bg-ivory-200 dark:bg-onyx-700">
     <img 
       src="{{.Image}}" 
       alt="{{.Name}}" 
@@ -8,7 +8,7 @@
       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
     >
     <div class="absolute top-3 left-3 flex gap-1.5">
-      <span class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-navy-900 text-amber-400 border border-amber-400/30 shadow-sm">
+      <span class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-onyx-900/90 text-champagne-400 border border-champagne-400/25 shadow-sm backdrop-blur-sm">
         {{.Badge}}
       </span>
     </div>
@@ -21,28 +21,28 @@
   <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
     <div>
       <div class="flex justify-between items-start mb-1">
-        <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">{{.Developer}}</span>
-        <span class="font-mono text-[10px] text-slate-400 dark:text-slate-500">{{.ID}}</span>
+        <span class="text-xs font-semibold text-champagne-500 dark:text-champagne-400 uppercase tracking-wider">{{.Developer}}</span>
+        <span class="font-mono text-[10px] text-ivory-500 dark:text-ivory-500">{{.ID}}</span>
       </div>
-      <h3 class="text-lg font-bold text-navy-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+      <h3 class="text-lg font-bold text-ivory-900 dark:text-ivory-100 group-hover:text-champagne-500 dark:group-hover:text-champagne-400 transition-colors">
         {{.Name}}
       </h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+      <p class="text-xs text-ivory-500 dark:text-ivory-500 mt-1 line-clamp-2">
         {{.Overview}}
       </p>
 
-      <div class="grid grid-cols-2 gap-2 mt-4 p-3 bg-slate-50 dark:bg-navy-950/80 rounded-xl text-xs border border-slate-100 dark:border-slate-800">
+      <div class="grid grid-cols-2 gap-2 mt-4 p-3 bg-ivory-100 dark:bg-onyx-900/80 rounded-xl text-xs border border-ivory-200 dark:border-onyx-600">
         <div>
-          <span class="block text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">Starting From</span>
-          <span class="font-extrabold text-navy-900 dark:text-amber-400 text-sm font-serif">{{.StartingPrice}}</span>
+          <span class="block text-[10px] text-ivory-500 dark:text-ivory-500 font-bold uppercase">Starting From</span>
+          <span class="font-extrabold text-ivory-900 dark:text-champagne-400 text-sm font-serif">{{.StartingPrice}}</span>
         </div>
         <div>
-          <span class="block text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">Configuration</span>
-          <span class="font-bold text-slate-800 dark:text-slate-200">{{.Configuration}}</span>
+          <span class="block text-[10px] text-ivory-500 dark:text-ivory-500 font-bold uppercase">Configuration</span>
+          <span class="font-bold text-ivory-800 dark:text-ivory-200">{{.Configuration}}</span>
         </div>
-        <div class="col-span-2 pt-2 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-600 dark:text-slate-300">
-          <span>Possession: <strong class="text-slate-800 dark:text-white">{{.PossessionDate}}</strong></span>
-          <span class="text-emerald-700 dark:text-emerald-400 font-semibold">RERA Approved</span>
+        <div class="col-span-2 pt-2 border-t border-ivory-200 dark:border-onyx-600 flex justify-between text-[11px] text-ivory-600 dark:text-ivory-400">
+          <span>Possession: <strong class="text-ivory-800 dark:text-ivory-100">{{.PossessionDate}}</strong></span>
+          <span class="text-sage-600 dark:text-sage-400 font-semibold">RERA Approved</span>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
       <button 
         type="button" 
         @click="openLead('Inquire About {{.Name}}', '{{.ID}}', '{{.Name}}')"
-        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-navy-900 hover:bg-navy-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white transition-all text-center"
+        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-onyx-900 hover:bg-onyx-800 dark:bg-onyx-700 dark:hover:bg-onyx-600 text-ivory-100 transition-all text-center cursor-pointer shadow-xs"
       >
         Download Brochure
       </button>
@@ -59,8 +59,10 @@
         href="{{whatsappURL (printf "Hi Dharavath Agency, I would like to download the brochure and schedule a site visit for %s by %s in %s." .Name .Developer .Location)}}" 
         target="_blank" 
         rel="noopener"
-        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800/60 transition-all text-center flex items-center justify-center gap-1"
+        class="w-full py-2.5 px-2 rounded-lg text-xs font-bold bg-sage-600/15 hover:bg-sage-600/25 dark:bg-sage-600/20 dark:hover:bg-sage-600/35 text-sage-600 dark:text-sage-400 border border-sage-500/30 dark:border-sage-600/40 transition-all flex items-center justify-center gap-1 cursor-pointer"
+        title="Chat on WhatsApp"
       >
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.895-.447-1.399-.575-2.28-1.996-2.348-2.088-.069-.091-.564-.75-.564-1.428 0-.679.355-1.014.481-1.152.126-.137.275-.172.368-.172.091 0 .183.001.263.005.085.004.198-.032.308.232.115.275.391.954.425 1.023.034.069.057.149.011.24-.046.092-.069.149-.138.229-.069.08-.145.179-.207.24-.069.069-.141.144-.061.282.08.137.356.586.764.95.525.467.969.612 1.107.681.138.069.218.057.3-.035.08-.092.345-.401.437-.539.092-.138.184-.115.31-.069.126.046.804.379.942.448.138.069.23.103.264.161.034.057.034.333-.11.738z"/></svg>
         <span>WhatsApp</span>
       </a>
     </div>

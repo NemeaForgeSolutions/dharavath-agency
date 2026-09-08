@@ -7,57 +7,129 @@
 @source "../../../internal/**/*.go";
 
 @theme {
-  --color-navy-700: #1b2a4a;
-  --color-navy-800: #101c33;
-  --color-navy-900: #0a1120;
-  --color-navy-950: #050a12;
+  /* ── Onyx palette (dark foundation) ── */
+  --color-onyx-950: #0C0D10;
+  --color-onyx-900: #111318;
+  --color-onyx-800: #181A20;
+  --color-onyx-700: #202229;
+  --color-onyx-600: #2A2D37;
+  --color-onyx-500: #363942;
 
+  /* ── Champagne gold (luxury accent) ── */
+  --color-champagne-200: #F0DCA8;
+  --color-champagne-300: #E5C77A;
+  --color-champagne-400: #D4A853;
+  --color-champagne-500: #B8892E;
+  --color-champagne-600: #9A7025;
+  --color-champagne-700: #7A5718;
+
+  /* ── Ivory (warm neutral) ── */
+  --color-ivory-50:  #FDFAF3;
+  --color-ivory-100: #F6F2E9;
+  --color-ivory-200: #EDE7D9;
+  --color-ivory-300: #DED8CB;
+  --color-ivory-400: #C2BDB3;
+  --color-ivory-500: #85827C;
+  --color-ivory-600: #77746D;
+  --color-ivory-700: #4E4D49;
+  --color-ivory-800: #2E2D2A;
+  --color-ivory-900: #17181C;
+
+  /* ── Sage green (verified / trust) ── */
+  --color-sage-400: #7D9B76;
+  --color-sage-500: #557A50;
+  --color-sage-600: #3E5E39;
+
+  /* ── Legacy amber kept for backward compat (will phase out) ── */
   --color-amber-200: #fde68a;
   --color-amber-300: #fcd34d;
   --color-amber-400: #fbbf24;
   --color-amber-500: #f59e0b;
   --color-amber-600: #d97706;
 
+  /* ── Legacy navy kept for backward compat (will phase out) ── */
+  --color-navy-700: #1b2a4a;
+  --color-navy-800: #101c33;
+  --color-navy-900: #0a1120;
+  --color-navy-950: #050a12;
+
   --font-sans: "Plus Jakarta Sans", "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
+/* ── Semantic surface tokens ─────────────────────────────── */
+:root {
+  /* Light mode defaults */
+  --bg-background:       #F6F2E9;
+  --bg-surface:          #FFFCF5;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-surface-sunken:   #EDE7D9;
+
+  --text-foreground:        #17181C;
+  --text-foreground-muted:  #4E4D49;
+  --text-foreground-subtle: #77746D;
+
+  --border-border: #DED8CB;
+  --border-strong: #C2BDB3;
+
+  --accent-gold:      #B58A3A;
+  --accent-gold-hover:#946E29;
+  --accent-gold-fg:   #FFFFFF;
+
+  --verified-color: #557A50;
+  --error-color:    #A95750;
+}
+
+html.dark {
+  /* Dark mode overrides */
+  --bg-background:       #111318;
+  --bg-surface:          #181A20;
+  --bg-surface-elevated: #202229;
+  --bg-surface-sunken:   #0C0D10;
+
+  --text-foreground:        #F5F1E8;
+  --text-foreground-muted:  #C2BDB3;
+  --text-foreground-subtle: #85827C;
+
+  --border-border: #2A2D37;
+  --border-strong: #363942;
+
+  --accent-gold:      #D4A853;
+  --accent-gold-hover:#E5C77A;
+  --accent-gold-fg:   #111318;
+
+  --verified-color: #7D9B76;
+  --error-color:    #B96A63;
+}
+
+/* ── Base reset ──────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--font-sans);
-  transition: background-color 0.25s ease, color 0.25s ease;
+  background-color: var(--bg-background);
+  color: var(--text-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ── Custom scrollbar ────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--bg-background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-html.dark {
-  color-scheme: dark;
-}
-html.dark ::-webkit-scrollbar-track {
-  background: #050a12;
-}
-html.dark ::-webkit-scrollbar-thumb {
-  background: #1b2a4a;
-}
-html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #253966;
+  background: var(--accent-gold);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -68,40 +140,93 @@ html.dark ::-webkit-scrollbar-thumb:hover {
   scrollbar-width: none;
 }
 
+/* ── Global interactive cursor pointer ──────────────────── */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'],
+[role='button'],
+select,
+summary {
+  cursor: pointer;
+}
+
+/* ── Glassmorphism surface (adaptive light & dark) ───────── */
 .glass-dock {
-  background: rgba(10, 17, 32, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background: rgba(255, 252, 245, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(222, 216, 203, 0.9);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html.dark .glass-dock {
+  background: rgba(17, 19, 24, 0.88);
+  border: 1px solid rgba(212, 168, 83, 0.12);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(212, 168, 83, 0.08);
 }
 
 .glass-card {
-  background: rgba(16, 28, 51, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 252, 245, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(222, 216, 203, 0.8);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+html.dark .glass-card {
+  background: rgba(24, 26, 32, 0.90);
+  border: 1px solid rgba(212, 168, 83, 0.10);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(212, 168, 83, 0.06);
+}
+
+/* ── Animations ──────────────────────────────────────────── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.35s ease-out forwards;
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 @keyframes floatSlow {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50%       { transform: translateY(-5px); }
 }
 
 .animate-float-slow {
-  animation: floatSlow 6s ease-in-out infinite;
+  animation: floatSlow 7s ease-in-out infinite;
 }
 
+/* ── Gold shimmer on accent buttons ─────────────────────── */
+@keyframes goldShimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.btn-gold-shimmer {
+  background: linear-gradient(
+    110deg,
+    #B58A3A 0%,
+    #D4A853 30%,
+    #E5C77A 50%,
+    #D4A853 70%,
+    #B58A3A 100%
+  );
+  background-size: 200% auto;
+  animation: goldShimmer 4s linear infinite;
+}
+
+/* ── Range slider ────────────────────────────────────────── */
 input[type="range"] {
-  accent-color: #f59e0b;
+  accent-color: #D4A853;
+}
+
+/* ── Refined selection ───────────────────────────────────── */
+::selection {
+  background-color: #D4A853;
+  color: #111318;
 }

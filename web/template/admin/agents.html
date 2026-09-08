@@ -2,20 +2,20 @@
 <div x-data="{ search: '', filterCity: 'all' }" class="space-y-8">
 
   <!-- Header Card -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
     <div>
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 text-xs font-bold mb-2">
         <span>Advisory Fiduciary Management</span>
       </div>
-      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950 dark:text-white">Advisory Team & Agents</h1>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage licensed senior advisors, fiduciary representatives, and regional desks.</p>
+      <h1 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-navy-950 dark:text-white">Advisory Team & Agents</h1>
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Manage licensed senior advisors, fiduciary representatives, and regional desks.</p>
     </div>
-    <div class="flex items-center gap-3">
-      <a href="/admin/agents/new" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+      <a href="/admin/agents/new" class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-xs sm:text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
         <span>Add New Advisor</span>
       </a>
-      <a href="/admin" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-semibold transition-colors">
+      <a href="/admin" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold transition-colors">
         Dashboard
       </a>
     </div>

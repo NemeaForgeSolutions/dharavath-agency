@@ -5,7 +5,7 @@
 }">
 
   <!-- Breadcrumbs & Title Bar -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
     <div>
       <div class="flex items-center gap-2 text-xs text-slate-400 font-semibold mb-2">
         <a href="/admin" class="hover:text-amber-500 transition-colors">Admin</a>
@@ -14,10 +14,10 @@
         <span>/</span>
         <span class="text-navy-950 dark:text-slate-200">{{if .Data.IsEdit}}Edit Advisor{{else}}Add New Advisor{{end}}</span>
       </div>
-      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950 dark:text-white">
+      <h1 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-navy-950 dark:text-white">
         {{if .Data.IsEdit}}Edit Advisor: {{.Data.Agent.Name}}{{else}}Add Licensed Senior Advisor{{end}}
       </h1>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
         Register a certified RERA broker or senior fiduciary to represent luxury clients.
       </p>
     </div>
