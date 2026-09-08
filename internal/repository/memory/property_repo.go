@@ -1,29 +1,14 @@
 package memory
 
 import (
-	_ "embed"
-	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
 	"sync"
 
 	"dharavath-agency/internal/domain"
+	"dharavath-agency/internal/pkg/uuid"
 )
-
-//go:embed seed.json
-var seedJSON []byte
-
-type seedData struct {
-	CompanyInfo  domain.CompanyInfo       `json:"companyInfo"`
-	Agents       []domain.Agent           `json:"agents"`
-	Properties   []domain.Property        `json:"properties"`
-	NewProjects  []domain.Project         `json:"newProjects"`
-	Locations    []domain.LocationInsight `json:"locations"`
-	Insights     []domain.InsightArticle  `json:"insights"`
-	Testimonials []domain.Testimonial     `json:"testimonials"`
-	WhyChooseUs  []domain.WhyChooseUsItem `json:"whyChooseUs"`
-}
 
 type PropertyRepo struct {
 	mu           sync.RWMutex
@@ -38,20 +23,15 @@ type PropertyRepo struct {
 }
 
 func NewPropertyRepo() (*PropertyRepo, error) {
-	var data seedData
-	if err := json.Unmarshal(seedJSON, &data); err != nil {
-		return nil, fmt.Errorf("failed to load seed data: %w", err)
-	}
-
 	return &PropertyRepo{
-		companyInfo:  data.CompanyInfo,
-		agents:       data.Agents,
-		properties:   data.Properties,
-		newProjects:  data.NewProjects,
-		locations:    data.Locations,
-		insights:     data.Insights,
-		testimonials: data.Testimonials,
-		whyChooseUs:  data.WhyChooseUs,
+		companyInfo:  domain.CompanyInfo{},
+		agents:       []domain.Agent{},
+		properties:   []domain.Property{},
+		newProjects:  []domain.Project{},
+		locations:    []domain.LocationInsight{},
+		insights:     []domain.InsightArticle{},
+		testimonials: []domain.Testimonial{},
+		whyChooseUs:  []domain.WhyChooseUsItem{},
 	}, nil
 }
 
@@ -175,6 +155,48 @@ func (r *PropertyRepo) FindAgentByID(id string) (*domain.Agent, error) {
 	return nil, domain.ErrNotFound
 }
 
+func (r *PropertyRepo) CreateAgent(agent *domain.Agent) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	if agent.ID == "" {
+		agent.ID = uuid.NewV7()
+	}
+	for _, a := range r.agents {
+		if a.ID == agent.ID {
+			return fmt.Errorf("agent with ID %s already exists", agent.ID)
+		}
+	}
+	r.agents = append(r.agents, *agent)
+	return nil
+}
+
+func (r *PropertyRepo) UpdateAgent(agent *domain.Agent) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i, a := range r.agents {
+		if a.ID == agent.ID {
+			r.agents[i] = *agent
+			return nil
+		}
+	}
+	return domain.ErrNotFound
+}
+
+func (r *PropertyRepo) DeleteAgent(id string) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i, a := range r.agents {
+		if a.ID == id {
+			r.agents = append(r.agents[:i], r.agents[i+1:]...)
+			return nil
+		}
+	}
+	return domain.ErrNotFound
+}
+
 func (r *PropertyRepo) FindProjects() []domain.Project {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
@@ -266,4 +288,3 @@ func (r *PropertyRepo) ToggleFeatured(id string) (bool, error) {
 	}
 	return false, domain.ErrNotFound
 }
-

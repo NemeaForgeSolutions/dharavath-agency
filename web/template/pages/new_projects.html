@@ -1,21 +1,4 @@
 {{define "meta"}}
-<title>RERA Approved New Developer Launches & Pre-Launch Projects | Dharavath Agency</title>
-<meta name="description" content="Discover verified new residential projects, pre-launches, and under-construction luxury developments in Hyderabad, Bengaluru, and Mumbai with audited escrow compliance.">
-<meta name="keywords" content="new projects Hyderabad, pre launch apartments Bengaluru, RERA registered developer launches, Godrej Prestige My Home new projects">
-<link rel="canonical" href="https://dharavathagency.in/new-projects">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://dharavathagency.in/new-projects">
-<meta property="og:title" content="RERA Approved New Developer Launches | Dharavath Agency">
-<meta property="og:description" content="Curated pre-construction and early-stage opportunities from India's most reputable Grade-A builders.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://dharavathagency.in/new-projects">
-<meta name="twitter:title" content="RERA Approved New Developer Launches | Dharavath Agency">
-<meta name="twitter:description" content="Curated pre-construction and early-stage opportunities from India's most reputable Grade-A builders.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,34 +47,10 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
     {{range .Data.Projects}}
       {{template "project_card" .}}
     {{end}}
-  </div>
-
-  <div class="bg-navy-950 text-white rounded-2xl p-8 sm:p-12 border border-slate-800 space-y-6">
-    <div class="max-w-2xl">
-      <span class="text-xs font-bold uppercase tracking-widest text-amber-400 block mb-1">RERA Investor Shield</span>
-      <h2 class="text-2xl sm:text-3xl font-bold font-serif">How We Protect New Project Buyers</h2>
-      <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-        Buying pre-launch or under-construction property in India requires strict adherence to regulatory norms. We independently audit:
-      </p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs">
-      <div class="p-4 bg-navy-900 rounded-xl border border-slate-800">
-        <h4 class="font-bold text-amber-400 mb-1">70% Escrow Monitoring</h4>
-        <p class="text-slate-400">Verifying that 70% of collected buyer funds remain dedicated to project construction as mandated by RERA.</p>
-      </div>
-      <div class="p-4 bg-navy-900 rounded-xl border border-slate-800">
-        <h4 class="font-bold text-amber-400 mb-1">Quarterly Progress Audits</h4>
-        <p class="text-slate-400">Tracking physical slab milestones and certified architect reports filed with state regulatory portals.</p>
-      </div>
-      <div class="p-4 bg-navy-900 rounded-xl border border-slate-800">
-        <h4 class="font-bold text-amber-400 mb-1">Carpet Area Verification</h4>
-        <p class="text-slate-400">Auditing net usable floor space to ensure you pay strictly for RERA carpet area, not inflated loading ratios.</p>
-      </div>
-    </div>
   </div>
 
 </div>

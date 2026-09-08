@@ -121,6 +121,9 @@ func NewEngine() (*Engine, error) {
 		"insights.html",
 		"about.html",
 		"contact.html",
+		"login.html",
+		"profile.html",
+		"404.html",
 	}
 
 	for _, name := range pageNames {
@@ -139,6 +142,8 @@ func NewEngine() (*Engine, error) {
 	adminPageNames := []string{
 		"dashboard.html",
 		"property_form.html",
+		"agents.html",
+		"agent_form.html",
 	}
 
 	for _, name := range adminPageNames {
@@ -168,6 +173,23 @@ func (e *Engine) RenderPage(w io.Writer, pageName string, data PageData) error {
 		}
 	}
 	return tmpl.ExecuteTemplate(w, "base.html", data)
+}
+
+// RenderNotFound writes a 404 status and renders the branded 404 page.
+// It is safe to call from any handler that has access to the view engine.
+func (e *Engine) RenderNotFound(w http.ResponseWriter, r *http.Request, company domain.CompanyInfo) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusNotFound)
+	data := PageData{
+		Title:       "Page Not Found",
+		Description: "The page you're looking for doesn't exist. Browse our luxury property portfolio or contact our advisory team.",
+		Robots:      "noindex, nofollow",
+		Company:     company,
+		User:        UserFromContext(r.Context()),
+	}
+	if err := e.RenderPage(w, "404.html", data); err != nil {
+		http.Error(w, "404 Not Found", http.StatusNotFound)
+	}
 }
 
 func (e *Engine) RenderAdminPage(w io.Writer, pageName string, data PageData) error {

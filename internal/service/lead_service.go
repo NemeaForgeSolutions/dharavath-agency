@@ -40,4 +40,3 @@ func (s *LeadService) SubmitLead(lead domain.Lead) (*LeadResult, error) {
 		WhatsAppURL: waURL,
 	}, nil
 }
-

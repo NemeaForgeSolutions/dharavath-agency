@@ -25,8 +25,37 @@ func (r *LeadRepo) Save(lead *domain.Lead) error {
 
 	lead.ID = fmt.Sprintf("LEAD-%d", time.Now().UnixNano())
 	lead.CreatedAt = time.Now()
+	if lead.Status == "" {
+		lead.Status = "pending"
+	}
 	r.leads = append(r.leads, *lead)
 	return nil
+}
+
+func (r *LeadRepo) UpdateStatus(id string, status string) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i, l := range r.leads {
+		if l.ID == id {
+			r.leads[i].Status = status
+			return nil
+		}
+	}
+	return domain.ErrNotFound
+}
+
+func (r *LeadRepo) FindByID(id string) (*domain.Lead, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	for _, l := range r.leads {
+		if l.ID == id {
+			item := l
+			return &item, nil
+		}
+	}
+	return nil, domain.ErrNotFound
 }
 
 func (r *LeadRepo) FindAll() []domain.Lead {

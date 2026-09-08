@@ -16,6 +16,22 @@ func (s *CatalogService) GetAgents() []domain.Agent {
 	return s.catalogRepo.FindAgents()
 }
 
+func (s *CatalogService) GetAgentByID(id string) (*domain.Agent, error) {
+	return s.catalogRepo.FindAgentByID(id)
+}
+
+func (s *CatalogService) CreateAgent(agent *domain.Agent) error {
+	return s.catalogRepo.CreateAgent(agent)
+}
+
+func (s *CatalogService) UpdateAgent(agent *domain.Agent) error {
+	return s.catalogRepo.UpdateAgent(agent)
+}
+
+func (s *CatalogService) DeleteAgent(id string) error {
+	return s.catalogRepo.DeleteAgent(id)
+}
+
 func (s *CatalogService) GetProjects() []domain.Project {
 	return s.catalogRepo.FindProjects()
 }

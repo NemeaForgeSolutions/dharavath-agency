@@ -103,4 +103,3 @@ Disallow: /api/
 Sitemap: %s/sitemap.xml
 `, h.baseURL)
 }
-

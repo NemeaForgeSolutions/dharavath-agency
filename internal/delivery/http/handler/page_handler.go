@@ -30,31 +30,48 @@ func NewPageHandler(
 	}
 }
 
-func (h *PageHandler) render(w http.ResponseWriter, page string, data view.PageData) {
+func (h *PageHandler) render(w http.ResponseWriter, r *http.Request, page string, data view.PageData) {
+	if data.User == nil && r != nil {
+		data.User = view.UserFromContext(r.Context())
+	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := h.engine.RenderPage(w, page, data); err != nil {
 		http.Error(w, fmt.Sprintf("Template rendering error: %v", err), http.StatusInternalServerError)
 	}
 }
 
+// NotFound renders the branded 404 page with a 404 HTTP status code.
+func (h *PageHandler) NotFound(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusNotFound)
+	pageData := view.PageData{
+		Title:       "Page Not Found",
+		Description: "The page you're looking for doesn't exist. Browse our luxury property portfolio or contact our advisory team.",
+		ActivePage:  "",
+		Robots:      "noindex, nofollow",
+		Company:     h.company,
+		User:        view.UserFromContext(r.Context()),
+	}
+	if err := h.engine.RenderPage(w, "404.html", pageData); err != nil {
+		http.Error(w, "404 Not Found", http.StatusNotFound)
+	}
+}
+
 func (h *PageHandler) Home(w http.ResponseWriter, r *http.Request) {
 	featured := h.propertyService.GetFeatured("all", 6)
 	projects := h.catalogService.GetProjects()
-	agents := h.catalogService.GetAgents()
 	testimonials := h.catalogService.GetTestimonials()
 	whyChooseUs := h.catalogService.GetWhyChooseUs()
 
 	data := struct {
 		Featured      []domain.Property
 		Projects      []domain.Project
-		Agents        []domain.Agent
 		Testimonials  []domain.Testimonial
 		WhyChooseUs   []domain.WhyChooseUsItem
 		TotalListings int
 	}{
 		Featured:      featured,
 		Projects:      projects,
-		Agents:        agents,
 		Testimonials:  testimonials,
 		WhyChooseUs:   whyChooseUs,
 		TotalListings: h.propertyService.TotalCount(),
@@ -69,7 +86,7 @@ func (h *PageHandler) Home(w http.ResponseWriter, r *http.Request) {
 		Data:         data,
 	}
 
-	h.render(w, "home.html", pageData)
+	h.render(w, r, "home.html", pageData)
 }
 
 func (h *PageHandler) Locations(w http.ResponseWriter, r *http.Request) {
@@ -88,7 +105,7 @@ func (h *PageHandler) Locations(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "locations.html", pageData)
+	h.render(w, r, "locations.html", pageData)
 }
 
 func (h *PageHandler) Commercial(w http.ResponseWriter, r *http.Request) {
@@ -107,7 +124,7 @@ func (h *PageHandler) Commercial(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "commercial.html", pageData)
+	h.render(w, r, "commercial.html", pageData)
 }
 
 func (h *PageHandler) Rent(w http.ResponseWriter, r *http.Request) {
@@ -126,7 +143,7 @@ func (h *PageHandler) Rent(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "rent.html", pageData)
+	h.render(w, r, "rent.html", pageData)
 }
 
 func (h *PageHandler) Sell(w http.ResponseWriter, r *http.Request) {
@@ -139,7 +156,7 @@ func (h *PageHandler) Sell(w http.ResponseWriter, r *http.Request) {
 		Data:         nil,
 	}
 
-	h.render(w, "sell.html", pageData)
+	h.render(w, r, "sell.html", pageData)
 }
 
 func (h *PageHandler) NewProjects(w http.ResponseWriter, r *http.Request) {
@@ -158,7 +175,7 @@ func (h *PageHandler) NewProjects(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "new_projects.html", pageData)
+	h.render(w, r, "new_projects.html", pageData)
 }
 
 func (h *PageHandler) Agents(w http.ResponseWriter, r *http.Request) {
@@ -177,7 +194,7 @@ func (h *PageHandler) Agents(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "agents.html", pageData)
+	h.render(w, r, "agents.html", pageData)
 }
 
 func (h *PageHandler) Insights(w http.ResponseWriter, r *http.Request) {
@@ -196,26 +213,20 @@ func (h *PageHandler) Insights(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	h.render(w, "insights.html", pageData)
+	h.render(w, r, "insights.html", pageData)
 }
 
 func (h *PageHandler) About(w http.ResponseWriter, r *http.Request) {
-	agents := h.catalogService.GetAgents()
-
 	pageData := view.PageData{
 		Title:        "About Dharavath Agency | Ethical Fiduciary Advisory",
 		Description:  "Founded in 2025, Dharavath Agency was built to restore trust and transparency to Indian property transactions with strict 40-point legal title verification.",
 		ActivePage:   "about",
 		CanonicalURL: "https://dharavathagency.in/about",
 		Company:      h.company,
-		Data: struct {
-			Agents []domain.Agent
-		}{
-			Agents: agents,
-		},
+		Data:         nil,
 	}
 
-	h.render(w, "about.html", pageData)
+	h.render(w, r, "about.html", pageData)
 }
 
 func (h *PageHandler) Contact(w http.ResponseWriter, r *http.Request) {
@@ -228,6 +239,5 @@ func (h *PageHandler) Contact(w http.ResponseWriter, r *http.Request) {
 		Data:         nil,
 	}
 
-	h.render(w, "contact.html", pageData)
+	h.render(w, r, "contact.html", pageData)
 }
-

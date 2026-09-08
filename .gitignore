@@ -1,12 +1,11 @@
 # Binaries
-scps-mlkpt
-scoops-malakpet
 bin/
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+server
 
 # Logs
 *.log

@@ -68,6 +68,7 @@ func (h *PropertyHandler) List(w http.ResponseWriter, r *http.Request) {
 			Filter:     filter,
 		},
 		IsHTMX: view.IsHTMX(r),
+		User:   view.UserFromContext(r.Context()),
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -134,7 +135,7 @@ func (h *PropertyHandler) Detail(w http.ResponseWriter, r *http.Request) {
 
 	prop, agent, similar, err := h.propertyService.GetDetail(slug)
 	if err != nil {
-		http.NotFound(w, r)
+		h.engine.RenderNotFound(w, r, h.company)
 		return
 	}
 
@@ -156,6 +157,7 @@ func (h *PropertyHandler) Detail(w http.ResponseWriter, r *http.Request) {
 			Similar:  similar,
 		},
 		IsHTMX: view.IsHTMX(r),
+		User:   view.UserFromContext(r.Context()),
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

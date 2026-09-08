@@ -57,24 +57,59 @@ Features server-side rendering with Go's standard library `net/http` and `html/t
 | `make css` | Compile and minify production Tailwind CSS |
 | `npm run watch:css` | Watch and recompile CSS during development |
 | `make test` | Run test suite (`go test -v ./...`) |
+| `make upload-images-dry` | Preview Supabase Storage image upload plan |
+| `make upload-images` | Upload image assets to Supabase Storage & sync URLs |
 | `make clean` | Remove compiled binaries and Go cache |
 | `make docker-build` | Build the multi-stage Docker image |
 | `make docker-run` | Run container locally on port 8080 |
 
 ---
 
+## Supabase & Database Setup
+
+The application supports both live **Supabase PostgreSQL** and an **in-memory** fallback store.
+
+### 1. Automatic Database Migration & Seeding on Startup
+When `DB_URL` is set in `.env`, the server automatically checks if the database is initialized or empty on startup:
+- Runs database table migrations (`CREATE TABLE IF NOT EXISTS`, indexes, and RLS policies).
+- Automatically seeds all properties, agents, projects, location insights, articles, and testimonials if the properties table is empty.
+- Controlled via `AUTO_SEED=true` in `.env` (enabled by default).
+
+Alternatively, you can manually execute [`supabase/schema.sql`](supabase/schema.sql) in your **Supabase Dashboard -> SQL Editor** or via `psql`.
+
+### 2. Upload Images to Supabase Storage
+Run the automated image uploader to pull external seed assets and host them directly in your Supabase Storage bucket:
+```bash
+# Preview the 28 unique assets and target storage paths:
+make upload-images-dry
+
+# Upload assets to Supabase Storage and generate updated seed files:
+make upload-images
+```
+This produces:
+- `supabase/seed.supabase.json`: Seed dataset with Supabase CDN URLs.
+- `supabase/seed_supabase_images.sql`: SQL migration updating all database records to Supabase CDN URLs.
+
+---
+
 ## Configuration
 
-Configure the server via environment variables or a `.env` file:
+Configure the server via environment variables or a `.env` file (automatically loaded on startup):
 
 | Variable | Default | Description |
 |---|---|---|
 | `HOST` | `0.0.0.0` | Bind IP address |
 | `PORT` | `8080` | HTTP listening port |
 | `APP_ENV` | `development` | Environment mode (`development` or `production`) |
+| `DB_URL` | `""` | Supabase / PostgreSQL connection string (`postgres://...`) |
+| `AUTO_SEED` | `true` | Automatically migrate schema and seed database on startup if empty |
+| `SUPABASE_URL` | `""` | Supabase Project API URL (`https://<project-ref>.supabase.co`) |
+| `SUPABASE_SECRET_KEY` | `""` | Supabase Service Role / Secret API key |
+| `SUPABASE_BUCKET` | `test-bkt` | Supabase Storage bucket name for images |
 | `READ_TIMEOUT_SEC` | `10` | Maximum request read duration in seconds |
 | `WRITE_TIMEOUT_SEC` | `15` | Maximum response write duration in seconds |
 | `IDLE_TIMEOUT_SEC` | `60` | Maximum keep-alive wait time in seconds |
+
 
 ---
 

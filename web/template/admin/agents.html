@@ -1,0 +1,135 @@
+{{define "content"}}
+<div x-data="{ search: '', filterCity: 'all' }" class="space-y-8">
+
+  <!-- Header Card -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-navy-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+    <div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 text-xs font-bold mb-2">
+        <span>Advisory Fiduciary Management</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950 dark:text-white">Advisory Team & Agents</h1>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage licensed senior advisors, fiduciary representatives, and regional desks.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="/admin/agents/new" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+        <span>Add New Advisor</span>
+      </a>
+      <a href="/admin" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-semibold transition-colors">
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Search & Filter Controls -->
+  <div class="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between transition-colors">
+    <div class="w-full sm:w-96 relative">
+      <svg class="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input 
+        type="text" 
+        x-model="search" 
+        placeholder="Filter by advisor name, RERA ID, city, specialization..." 
+        class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-navy-900 transition-all"
+      >
+    </div>
+
+    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+      <select 
+        x-model="filterCity"
+        class="px-3 py-2 text-sm bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all font-medium text-slate-700 dark:text-slate-200">
+        <option value="all">All Metro Desks</option>
+        <option value="hyderabad">Hyderabad</option>
+        <option value="bengaluru">Bengaluru</option>
+        <option value="mumbai">Mumbai</option>
+      </select>
+      <span class="text-xs text-slate-400 font-mono">{{len .Data.Agents}} Advisors</span>
+    </div>
+  </div>
+
+  <!-- Agents Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{range .Data.Agents}}
+    <div 
+      x-show="(filterCity === 'all' || '{{lower .City}}'.includes(filterCity.toLowerCase())) && ('{{lower .Name}} {{lower .City}} {{lower .ReraID}} {{lower .Specialization}}'.includes(search.toLowerCase()))"
+      class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+    >
+      <div class="flex items-start gap-4">
+        <img 
+          src="{{.Photo}}" 
+          alt="{{.Name}}" 
+          class="w-16 h-16 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm shrink-0"
+        >
+        <div class="space-y-1 min-w-0 flex-1">
+          <div class="flex items-center justify-between gap-1">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-navy-950 text-amber-400 border border-amber-400/20">
+              {{.City}} Desk
+            </span>
+            <span class="text-[10px] font-semibold text-slate-400 font-mono">
+              {{.ActiveListings}} Listings
+            </span>
+          </div>
+          <h3 class="text-base font-bold text-navy-950 dark:text-white truncate">
+            {{.Name}}
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{.Role}}</p>
+          <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-semibold flex items-center gap-1">
+            <svg class="w-3 h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <span class="truncate">{{.ReraID}}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-2 text-xs bg-slate-50 dark:bg-navy-950/70 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+        <div class="flex justify-between text-slate-600 dark:text-slate-300">
+          <span class="text-slate-400 dark:text-slate-500">Specialization:</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200 truncate ml-2">{{.Specialization}}</span>
+        </div>
+        <div class="flex justify-between text-slate-600 dark:text-slate-300">
+          <span class="text-slate-400 dark:text-slate-500">Experience:</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200">{{.Experience}}</span>
+        </div>
+        <div class="flex justify-between text-slate-600 dark:text-slate-300">
+          <span class="text-slate-400 dark:text-slate-500">Contact:</span>
+          <span class="font-mono text-slate-800 dark:text-slate-200">{{.Phone}}</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <a 
+            href="/admin/agents/edit/{{.ID}}" 
+            class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors"
+          >
+            Edit
+          </a>
+          <a 
+            href="/agents" 
+            target="_blank"
+            class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 text-xs font-semibold transition-colors"
+            title="View on Live Site"
+          >
+            Public View ↗
+          </a>
+        </div>
+        <form action="/admin/agents/delete/{{.ID}}" method="POST" onsubmit="return confirm('Are you sure you want to remove {{.Name}} from the advisory panel? This cannot be undone.');">
+          <button 
+            type="submit" 
+            class="px-2.5 py-1.5 rounded-lg text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs font-semibold transition-colors"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+    {{else}}
+    <div class="col-span-full py-12 text-center bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+      <p class="text-slate-500 dark:text-slate-400 font-medium">No advisors found.</p>
+      <a href="/admin/agents/new" class="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-xl bg-amber-500 text-navy-950 font-bold text-xs">
+        + Add First Advisor
+      </a>
+    </div>
+    {{end}}
+  </div>
+
+</div>
+{{end}}

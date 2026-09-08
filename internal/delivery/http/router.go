@@ -1,13 +1,11 @@
 package http
 
 import (
-	"io/fs"
-	"log"
 	"net/http"
 
 	"dharavath-agency/internal/delivery/http/handler"
 	"dharavath-agency/internal/delivery/http/middleware"
-	"dharavath-agency/web"
+	"dharavath-agency/internal/service"
 )
 
 type RouterConfig struct {
@@ -15,69 +13,34 @@ type RouterConfig struct {
 	PropertyHandler *handler.PropertyHandler
 	LeadHandler     *handler.LeadHandler
 	AdminHandler    *handler.AdminHandler
+	AuthHandler     *handler.AuthHandler
+	AuthService     *service.AuthService
 	SEOHandler      *handler.SEOHandler
 	HealthHandler   *handler.HealthHandler
 }
 
+// NewRouter constructs and configures the HTTP request router with modular domain route registration.
 func NewRouter(cfg RouterConfig) http.Handler {
 	mux := http.NewServeMux()
 
-	staticSubFS, err := fs.Sub(web.StaticFS, "static")
-	if err != nil {
-		log.Fatalf("Failed to create static sub-filesystem: %v", err)
-	}
-	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticSubFS))))
-
-	if cfg.SEOHandler != nil {
-		mux.HandleFunc("GET /sitemap.xml", cfg.SEOHandler.SitemapXML)
-		mux.HandleFunc("GET /robots.txt", cfg.SEOHandler.RobotsTxt)
-	}
-	mux.HandleFunc("GET /favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/static/img/favicon.svg", http.StatusMovedPermanently)
-	})
-	mux.HandleFunc("GET /site.webmanifest", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/static/site.webmanifest", http.StatusMovedPermanently)
-	})
-
-	healthHandler := cfg.HealthHandler
-	if healthHandler == nil {
-		healthHandler = handler.NewHealthHandler("development", "1.0.0", nil, nil)
-	}
-
-	mux.HandleFunc("GET /health", healthHandler.Health)
-	mux.HandleFunc("GET /healthz", healthHandler.Livez)
-	mux.HandleFunc("GET /livez", healthHandler.Livez)
-	mux.HandleFunc("GET /readyz", healthHandler.Readyz)
-
-	mux.HandleFunc("GET /{$}", cfg.PageHandler.Home)
-	mux.HandleFunc("GET /properties", cfg.PropertyHandler.List)
-	mux.HandleFunc("GET /properties/search", cfg.PropertyHandler.Search)
-	mux.HandleFunc("GET /properties/featured", cfg.PropertyHandler.Featured)
-	mux.HandleFunc("GET /properties/{slug}", cfg.PropertyHandler.Detail)
-	mux.HandleFunc("GET /locations", cfg.PageHandler.Locations)
-	mux.HandleFunc("GET /commercial", cfg.PageHandler.Commercial)
-	mux.HandleFunc("GET /rent", cfg.PageHandler.Rent)
-	mux.HandleFunc("GET /sell", cfg.PageHandler.Sell)
-	mux.HandleFunc("GET /new-projects", cfg.PageHandler.NewProjects)
-	mux.HandleFunc("GET /agents", cfg.PageHandler.Agents)
-	mux.HandleFunc("GET /insights", cfg.PageHandler.Insights)
-	mux.HandleFunc("GET /about", cfg.PageHandler.About)
-	mux.HandleFunc("GET /contact", cfg.PageHandler.Contact)
-
-	if cfg.AdminHandler != nil {
-		mux.HandleFunc("GET /admin", cfg.AdminHandler.Dashboard)
-		mux.HandleFunc("GET /admin/properties", cfg.AdminHandler.Dashboard)
-		mux.HandleFunc("GET /admin/properties/new", cfg.AdminHandler.NewProperty)
-		mux.HandleFunc("POST /admin/properties/new", cfg.AdminHandler.CreateProperty)
-		mux.HandleFunc("GET /admin/properties/edit/{id}", cfg.AdminHandler.EditProperty)
-		mux.HandleFunc("POST /admin/properties/edit/{id}", cfg.AdminHandler.UpdateProperty)
-		mux.HandleFunc("POST /admin/properties/delete/{id}", cfg.AdminHandler.DeleteProperty)
-		mux.HandleFunc("POST /admin/properties/toggle-featured/{id}", cfg.AdminHandler.ToggleFeatured)
-	}
-
-	mux.HandleFunc("POST /api/leads", cfg.LeadHandler.Submit)
+	// Register route groups organized by domain in dedicated files:
+	// - routes_public.go: static assets, SEO, health, catalog, and public pages
+	// - routes_auth.go: authentication, user registration, and profile
+	// - routes_admin.go: backoffice properties and agent administration
+	// - routes_api.go: REST/JSON endpoints (leads, site visits)
+	registerStaticAndMetaRoutes(mux, cfg)
+	registerPublicRoutes(mux, cfg)
+	registerAuthRoutes(mux, cfg)
+	registerAdminRoutes(mux, cfg)
+	registerAPIRoutes(mux, cfg)
 
 	var handler http.Handler = mux
+
+	// If AuthService is present, inject Authenticate middleware to populate user context globally
+	if cfg.AuthService != nil {
+		handler = middleware.Authenticate(cfg.AuthService)(handler)
+	}
+
 	handler = middleware.Compress(handler)
 	handler = middleware.SecurityHeaders(handler)
 	handler = middleware.Logger(handler)

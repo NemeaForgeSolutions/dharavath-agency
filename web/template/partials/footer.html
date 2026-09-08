@@ -55,9 +55,8 @@
         <h4 class="text-white text-xs font-bold uppercase tracking-wider">Client Advisory</h4>
         <ul class="space-y-2 text-xs">
           <li><a href="/agents" class="hover:text-amber-400 transition-colors">Verified Senior Brokers</a></li>
-          <li><a href="/insights" class="hover:text-amber-400 transition-colors">RERA Due Diligence Checklist</a></li>
-          <li><a href="/insights" class="hover:text-amber-400 transition-colors">Home Loan & Tax Benefits</a></li>
-          <li><a href="/insights" class="hover:text-amber-400 transition-colors">NRI Real Estate & FEMA Guide</a></li>
+          <li><a href="/locations" class="hover:text-amber-400 transition-colors">Prime Micro-Markets</a></li>
+          <li><a href="/insights" class="hover:text-amber-400 transition-colors">Market Insights & RERA Guides</a></li>
           <li><a href="/about" class="hover:text-amber-400 transition-colors">About Dharavath Agency</a></li>
           <li><a href="/contact" class="hover:text-amber-400 transition-colors">Branch Offices & Contact</a></li>
         </ul>
@@ -65,24 +64,14 @@
 
     </div>
 
-    <div class="mt-10 pt-8 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-      {{range .Company.Branches}}
-      <div class="p-3 bg-navy-900/50 rounded-xl border border-slate-800/60">
-        <span class="font-bold text-white block">{{.City}} Branch</span>
-        <span class="text-slate-400 text-[11px] block">{{.Area}}</span>
-        <a href="tel:{{.Phone}}" class="text-amber-400 font-mono text-[11px] hover:underline block mt-1">{{.Phone}}</a>
-      </div>
-      {{end}}
-    </div>
-
-    <div class="mt-8 pt-6 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-slate-500 text-center sm:text-left">
-      <p>© {{.Company.EstablishedYear}} - 2026 {{.Company.Name}}. All rights reserved. Built with Go, HTMX & Alpine.js.</p>
+    <div class="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-slate-500 text-center sm:text-left">
+      <p>© {{.Company.EstablishedYear}} - 2026 {{.Company.Name}}. All rights reserved.</p>
       <div class="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
         <span>100% RERA Compliant Advisory</span>
         <span>·</span>
-        <a href="/about" class="hover:text-slate-300">Privacy Policy</a>
+        <span>40-Point Title Due Diligence</span>
         <span>·</span>
-        <a href="/about" class="hover:text-slate-300">Terms of Service</a>
+        <a href="/about" class="hover:text-slate-300">Fiduciary Code & Ethics</a>
       </div>
     </div>
 

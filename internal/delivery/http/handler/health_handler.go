@@ -88,24 +88,3 @@ func (h *HealthHandler) Health(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_ = json.NewEncoder(w).Encode(resp)
 }
-
-// Livez handles GET /healthz and GET /livez, returning a lightweight liveness probe.
-func (h *HealthHandler) Livez(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte(`{"status":"ok"}`))
-}
-
-// Readyz handles GET /readyz, validating whether application dependencies are ready to serve traffic.
-func (h *HealthHandler) Readyz(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	if h.propRepo == nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_, _ = w.Write([]byte(`{"status":"not_ready","ready":false,"reason":"property repository uninitialized"}`))
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte(`{"status":"ok","ready":true}`))
-}

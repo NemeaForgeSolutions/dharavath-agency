@@ -75,13 +75,28 @@
             <span class="sm:hidden">Inventory</span>
             <span class="hidden sm:inline">Inventory & Leads</span>
           </a>
-          <a href="/admin/properties/new" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap {{if eq .ActivePage "admin-new-property"}}bg-navy-800 text-amber-400{{else}}text-slate-300 hover:text-white{{end}}">
-            + Add <span class="hidden sm:inline">Property</span>
+          <a href="/admin/agents" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap {{if eq .ActivePage "admin-agents"}}bg-navy-800 text-amber-400{{else}}text-slate-300 hover:text-white{{end}}">
+            <span class="sm:hidden">Agents</span>
+            <span class="hidden sm:inline">Advisors & Agents</span>
           </a>
           <a href="/" target="_blank" class="text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 px-2 py-1.5 whitespace-nowrap">
             <span class="hidden sm:inline">Live Site</span>
             <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
+
+          {{if .User}}
+            <div class="hidden md:flex items-center gap-2 pl-2 border-l border-slate-800 text-xs">
+              <span class="text-slate-400">Logged in:</span>
+              <span class="text-amber-400 font-semibold truncate max-w-[120px]">{{.User.Name}}</span>
+            </div>
+            <a 
+              href="/logout" 
+              class="px-2.5 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 text-xs font-semibold transition-colors flex items-center gap-1"
+              title="Sign Out of Admin Portal"
+            >
+              <span>Logout</span>
+            </a>
+          {{end}}
 
           <button 
             type="button" 

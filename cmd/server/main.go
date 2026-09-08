@@ -12,7 +12,7 @@ import (
 	"dharavath-agency/configs"
 	deliveryHttp "dharavath-agency/internal/delivery/http"
 	"dharavath-agency/internal/delivery/http/handler"
-	"dharavath-agency/internal/repository/memory"
+	"dharavath-agency/internal/repository/postgres"
 	"dharavath-agency/internal/service"
 	"dharavath-agency/internal/view"
 )
@@ -20,19 +20,35 @@ import (
 func main() {
 	cfg := configs.LoadConfig()
 
-	propRepo, err := memory.NewPropertyRepo()
-	if err != nil {
-		log.Fatalf("Fatal: failed to initialize property repository: %v", err)
+	if cfg.DatabaseURL == "" {
+		log.Fatalf("Fatal: DATABASE_URL environment variable is required. Dharavath Agency is a PostgreSQL/Supabase-backed application.")
 	}
-	leadRepo := memory.NewLeadRepo()
 
-	log.Printf("Repository initialized: %d properties, %d agents, %d projects",
-		propRepo.Count(), len(propRepo.FindAgents()), len(propRepo.FindProjects()))
+	log.Printf("Initializing PostgreSQL connection...")
+	db, err := postgres.OpenDB(cfg.DatabaseURL)
+	if err != nil {
+		log.Fatalf("Fatal: failed to connect to PostgreSQL database: %v", err)
+	}
 
-	propertyService := service.NewPropertyService(propRepo, propRepo)
+	migrateCtx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	if err := postgres.ExecuteDDL(migrateCtx, db); err != nil {
+		cancel()
+		log.Fatalf("Fatal: database schema migration encountered an error: %v", err)
+	}
+	cancel()
+
+	propRepo := postgres.NewPropertyRepo(db)
+	catalogRepo := propRepo
+	leadRepo := postgres.NewLeadRepo(db)
+	userRepo := postgres.NewUserRepo(db)
+
+	log.Printf("Connected to PostgreSQL DB")
+
+	propertyService := service.NewPropertyService(propRepo, catalogRepo)
 	leadService := service.NewLeadService(leadRepo)
-	catalogService := service.NewCatalogService(propRepo)
+	catalogService := service.NewCatalogService(catalogRepo)
 	adminService := service.NewAdminService(propRepo, leadRepo)
+	authService := service.NewAuthService(userRepo, cfg.SessionSecret)
 
 	viewEngine, err := view.NewEngine()
 	if err != nil {
@@ -42,7 +58,8 @@ func main() {
 	pageHandler := handler.NewPageHandler(propertyService, catalogService, viewEngine, cfg.Company)
 	propertyHandler := handler.NewPropertyHandler(propertyService, viewEngine, cfg.Company)
 	leadHandler := handler.NewLeadHandler(leadService)
-	adminHandler := handler.NewAdminHandler(propertyService, adminService, viewEngine, cfg.Company)
+	adminHandler := handler.NewAdminHandler(propertyService, adminService, catalogService, viewEngine, cfg.Company)
+	authHandler := handler.NewAuthHandler(authService, viewEngine, cfg.Company, cfg.IsProduction())
 	seoHandler := handler.NewSEOHandler(propertyService, catalogService, "https://dharavathagency.in")
 	healthHandler := handler.NewHealthHandler(cfg.Env, "1.0.0", propRepo, leadRepo)
 
@@ -51,6 +68,8 @@ func main() {
 		PropertyHandler: propertyHandler,
 		LeadHandler:     leadHandler,
 		AdminHandler:    adminHandler,
+		AuthHandler:     authHandler,
+		AuthService:     authService,
 		SEOHandler:      seoHandler,
 		HealthHandler:   healthHandler,
 	})

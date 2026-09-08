@@ -1,21 +1,4 @@
 {{define "meta"}}
-<title>Licensed Real Estate Advisory Leaders & RERA Agents | Dharavath Agency</title>
-<meta name="description" content="Meet Dharavath Agency's licensed senior real estate advisors and regional directors across Hyderabad, Bengaluru, and Mumbai. 100% RERA registered fiduciary consultants.">
-<meta name="keywords" content="RERA registered agents India, real estate advisors Hyderabad, property consultants Bangalore, luxury real estate broker Mumbai">
-<link rel="canonical" href="https://dharavathagency.in/agents">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://dharavathagency.in/agents">
-<meta property="og:title" content="Licensed Real Estate Advisory Leaders | Dharavath Agency">
-<meta property="og:description" content="Meet Dharavath Agency's licensed senior real estate advisors across top Indian metros.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://dharavathagency.in/agents">
-<meta name="twitter:title" content="Licensed Real Estate Advisory Leaders | Dharavath Agency">
-<meta name="twitter:description" content="Meet Dharavath Agency's licensed senior real estate advisors across top Indian metros.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,39 +35,35 @@
 {{define "content"}}
 <div class="py-8 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   
-  <div class="max-w-3xl mb-12">
-    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-xs font-bold mb-3">
-      <span>100% RERA Certified Advisors</span>
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-xs font-bold mb-3">
+        <span>100% RERA Certified Advisors</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black text-navy-900 dark:text-white font-serif tracking-tight">
+        Licensed Real Estate Advisory Leaders
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+        Every Dharavath Agency advisor is an experienced professional with verified state regulatory credentials, hyper-local market intelligence, and fiduciary responsibility to our clients.
+      </p>
     </div>
-    <h1 class="text-3xl sm:text-5xl font-black text-navy-900 dark:text-white font-serif tracking-tight">
-      Licensed Real Estate Advisory Leaders
-    </h1>
-    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
-      Every Dharavath Agency advisor is an experienced professional with verified state regulatory credentials, hyper-local market intelligence, and fiduciary responsibility to our clients.
-    </p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
-    {{range .Data.Agents}}
-      {{template "agent_card" .}}
+    {{if and .User (eq .User.Role "admin")}}
+    <div class="shrink-0 flex items-center gap-3">
+      <a href="/admin/agents/new" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+        <span>+ Add Advisor</span>
+      </a>
+      <a href="/admin/agents" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-navy-900 text-slate-700 dark:text-slate-300 font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 transition-all">
+        <span>Manage Team</span>
+      </a>
+    </div>
     {{end}}
   </div>
 
-  <div class="bg-navy-950 text-white rounded-2xl p-8 sm:p-12 border border-slate-800 text-center max-w-4xl mx-auto space-y-4">
-    <span class="text-xs font-bold uppercase tracking-widest text-amber-400 block">Fiduciary Commitment</span>
-    <h2 class="text-2xl sm:text-3xl font-bold font-serif">Direct, Transparent, and Free of Commission Bias</h2>
-    <p class="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-      Unlike conventional brokers who push specific inventory for developer kickbacks, our advisory mandate is strictly aligned with your wealth preservation and lifestyle goals.
-    </p>
-    <div class="pt-2">
-      <button 
-        type="button" 
-        @click="openLead('Connect with a Senior Real Estate Advisor', '', '')"
-        class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy-950 font-bold text-xs uppercase tracking-wider shadow-lg transition-all"
-      >
-        Request a Consultation
-      </button>
-    </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+    {{range .Data.Agents}}
+      {{template "agent_card" .}}
+    {{end}}
   </div>
 
 </div>

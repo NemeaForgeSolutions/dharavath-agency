@@ -24,14 +24,30 @@ type PropertyRepository interface {
 type LeadRepository interface {
 	Save(lead *Lead) error
 	FindAll() []Lead
+	UpdateStatus(id string, status string) error
+	FindByID(id string) (*Lead, error)
 }
 
 type CatalogRepository interface {
 	FindAgents() []Agent
 	FindAgentByID(id string) (*Agent, error)
+	CreateAgent(agent *Agent) error
+	UpdateAgent(agent *Agent) error
+	DeleteAgent(id string) error
 	FindProjects() []Project
 	FindLocations() []LocationInsight
 	FindInsights() []InsightArticle
 	FindTestimonials() []Testimonial
 	FindWhyChooseUs() []WhyChooseUsItem
 }
+
+type UserRepository interface {
+	Create(user *User) error
+	FindByEmail(email string) (*User, error)
+	FindByID(id string) (*User, error)
+	Update(user *User) error
+	UpdateLastLogin(id string) error
+	Count() int
+	FindAll() []User
+}
+

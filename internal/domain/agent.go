@@ -16,4 +16,7 @@ type Agent struct {
 	Email          string   `json:"email"`
 	ActiveListings int      `json:"activeListings"`
 	Bio            string   `json:"bio"`
+	UserID         *string  `json:"userId,omitempty"`
+	CreatedBy      *string  `json:"createdBy,omitempty"`
+	UpdatedBy      *string  `json:"updatedBy,omitempty"`
 }

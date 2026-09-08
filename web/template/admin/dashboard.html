@@ -7,6 +7,10 @@
       <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Real-time inventory status, lead tracking, and property administration.</p>
     </div>
     <div class="flex items-center gap-3">
+      <a href="/admin/agents/new" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-navy-950 dark:bg-navy-800 text-amber-400 hover:text-amber-300 border border-amber-500/30 hover:border-amber-500/50 font-bold text-sm shadow-sm transition-all duration-200 active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+        <span>+ Add Advisor</span>
+      </a>
       <a href="/admin/properties/new" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy-950 font-bold text-sm shadow-md hover:from-amber-400 hover:to-amber-500 transition-all duration-200 hover:shadow-lg transform active:scale-95">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
         <span>Add New Property</span>
@@ -14,7 +18,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
     <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
       <div>
@@ -51,6 +55,17 @@
 
     <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
       <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Sell Requests</p>
+        <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.PendingSellRequests}}</p>
+        <p class="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1">Pending Review</p>
+      </div>
+      <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-navy-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
         <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Client Inquiries</p>
         <p class="text-3xl font-extrabold text-navy-950 dark:text-white mt-1">{{.Data.Stats.TotalLeads}}</p>
         <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">Active Leads Received</p>
@@ -70,10 +85,27 @@
       Properties Inventory ({{.Data.Stats.TotalProperties}})
     </button>
     <button 
+      @click="tab = 'sell-requests'" 
+      :class="tab === 'sell-requests' ? 'bg-navy-950 dark:bg-amber-500 text-white dark:text-navy-950 font-bold' : 'bg-white dark:bg-navy-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 font-medium'"
+      class="px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-sm shrink-0 whitespace-nowrap flex items-center gap-2">
+      <span>Sell Requests</span>
+      {{if gt .Data.Stats.PendingSellRequests 0}}
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500 text-navy-950">{{.Data.Stats.PendingSellRequests}} pending</span>
+      {{else}}
+        <span class="text-xs text-slate-400">({{len .Data.SellRequests}})</span>
+      {{end}}
+    </button>
+    <button 
       @click="tab = 'leads'" 
       :class="tab === 'leads' ? 'bg-navy-950 dark:bg-amber-500 text-white dark:text-navy-950 font-bold' : 'bg-white dark:bg-navy-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 font-medium'"
       class="px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-sm shrink-0 whitespace-nowrap">
       Client Inquiries & Site Visits ({{.Data.Stats.TotalLeads}})
+    </button>
+    <button 
+      @click="tab = 'agents'" 
+      :class="tab === 'agents' ? 'bg-navy-950 dark:bg-amber-500 text-white dark:text-navy-950 font-bold' : 'bg-white dark:bg-navy-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 font-medium'"
+      class="px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-sm shrink-0 whitespace-nowrap">
+      Advisory Team ({{len .Data.Agents}})
     </button>
   </div>
 
@@ -210,6 +242,127 @@
     </div>
   </div>
 
+  <div x-show="tab === 'sell-requests'" class="space-y-4" style="display: none;">
+    <div class="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 transition-colors">
+      <div>
+        <h2 class="text-base font-bold text-navy-950 dark:text-white">Seller Submissions & Approval Pipeline</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Review property details submitted by owners, verify market valuations, and approve for public catalog listing.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400">
+          {{.Data.Stats.PendingSellRequests}} Pending Review
+        </span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[760px]">
+          <thead>
+            <tr class="bg-slate-50/80 dark:bg-navy-950/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <th class="py-3 px-4 sm:px-6">Submitted At</th>
+              <th class="py-3 px-4">Seller Contact</th>
+              <th class="py-3 px-4">Property & Valuation</th>
+              <th class="py-3 px-4">Status</th>
+              <th class="py-3 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            {{if .Data.SellRequests}}
+              {{range .Data.SellRequests}}
+              <tr id="sell-request-row-{{.ID}}" class="hover:bg-slate-50/80 dark:hover:bg-navy-800/50 transition-colors">
+                <td class="py-3.5 px-4 sm:px-6 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  {{if not .CreatedAt.IsZero}}
+                    {{.CreatedAt.Format "02 Jan 2006, 15:04"}}
+                  {{else}}
+                    Recent
+                  {{end}}
+                </td>
+
+                <td class="py-3.5 px-4">
+                  <div class="font-bold text-navy-950 dark:text-white">{{.Name}}</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                    <a href="tel:{{.Phone}}" class="hover:text-amber-600 dark:hover:text-amber-400 font-mono font-medium">{{.Phone}}</a>
+                    {{if .Email}}
+                      <span>•</span>
+                      <a href="mailto:{{.Email}}" class="hover:text-amber-600 dark:hover:text-amber-400">{{.Email}}</a>
+                    {{end}}
+                  </div>
+                </td>
+
+                <td class="py-3.5 px-4 text-xs font-medium text-slate-800 dark:text-slate-200 max-w-xs">
+                  <span class="font-semibold text-navy-950 dark:text-white block">{{if .PropertyTitle}}{{.PropertyTitle}}{{else}}Unspecified Asset{{end}}</span>
+                  <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">
+                    {{if .Message}}{{.Message}}{{else}}<span class="text-slate-400 italic">No additional notes</span>{{end}}
+                  </p>
+                </td>
+
+                <td class="py-3.5 px-4 whitespace-nowrap">
+                  {{if eq .Status "approved"}}
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">Approved</span>
+                  {{else if eq .Status "rejected"}}
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">Rejected</span>
+                  {{else}}
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">Pending Review</span>
+                  {{end}}
+                </td>
+
+                <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                  {{if eq .Status "approved"}}
+                    <div class="flex items-center justify-end gap-2">
+                      <a href="/admin/properties/new?title={{urlquery .PropertyTitle}}&seller={{urlquery .Name}}" 
+                        class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition-all shadow-sm">
+                        Create Listing &rarr;
+                      </a>
+                    </div>
+                  {{else if eq .Status "rejected"}}
+                    <div class="flex items-center justify-end gap-2">
+                      <button 
+                        type="button" 
+                        hx-post="/admin/sell-requests/{{.ID}}/status?status=approved" 
+                        hx-target="#sell-request-row-{{.ID}}" 
+                        hx-swap="outerHTML" 
+                        class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <span>Approve</span>
+                      </button>
+                    </div>
+                  {{else}}
+                    <div class="flex items-center justify-end gap-2">
+                      <button 
+                        type="button" 
+                        hx-post="/admin/sell-requests/{{.ID}}/status?status=approved" 
+                        hx-target="#sell-request-row-{{.ID}}" 
+                        hx-swap="outerHTML" 
+                        class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer whitespace-nowrap">
+                        Approve
+                      </button>
+                      <button 
+                        type="button" 
+                        hx-post="/admin/sell-requests/{{.ID}}/status?status=rejected" 
+                        hx-target="#sell-request-row-{{.ID}}" 
+                        hx-swap="outerHTML" 
+                        class="px-2.5 py-1.5 bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 rounded-lg text-xs font-semibold transition-all active:scale-95 cursor-pointer whitespace-nowrap">
+                        Reject
+                      </button>
+                    </div>
+                  {{end}}
+                </td>
+              </tr>
+              {{end}}
+            {{else}}
+              <tr>
+                <td colspan="5" class="py-10 text-center text-slate-400 text-sm">
+                  No sell requests received yet. Submissions from the /sell page will appear here for admin review.
+                </td>
+              </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <div x-show="tab === 'leads'" class="space-y-4" style="display: none;">
     <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
       <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
@@ -307,6 +460,60 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <div x-show="tab === 'agents'" class="space-y-4">
+    <div class="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition-colors">
+      <div>
+        <h2 class="text-base font-bold text-navy-950 dark:text-white">Senior Advisors & Team Leaders</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Manage executive consultants, RERA certifications, and metro territories.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/admin/agents" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-navy-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-navy-700 transition-colors">
+          Full Management View &rarr;
+        </a>
+        <a href="/admin/agents/new" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-navy-950 shadow-sm transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Advisor
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {{if .Data.Agents}}
+        {{range .Data.Agents}}
+        <div class="bg-white dark:bg-navy-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:border-amber-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <img src="{{if .Photo}}{{.Photo}}{{else}}https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80{{end}}" alt="{{.Name}}" class="w-14 h-14 rounded-xl object-cover ring-2 ring-amber-500/20 shrink-0">
+            <div class="min-w-0 flex-1">
+              <h3 class="text-sm font-bold text-navy-950 dark:text-white truncate">{{.Name}}</h3>
+              <p class="text-xs text-amber-600 dark:text-amber-400 font-medium truncate">{{.Role}}</p>
+              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
+                <span class="truncate">{{.City}}</span>
+                <span>•</span>
+                <span>{{.Experience}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+            <span class="font-mono text-[11px] text-slate-400 truncate max-w-[120px]">{{.ReraID}}</span>
+            <div class="flex items-center gap-2">
+              <a href="/admin/agents/edit/{{.ID}}" class="text-amber-600 dark:text-amber-400 hover:underline font-semibold text-xs">Edit</a>
+              <span class="text-slate-300 dark:text-slate-700">|</span>
+              <a href="tel:{{.Phone}}" class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-mono text-[11px]">{{.Phone}}</a>
+            </div>
+          </div>
+        </div>
+        {{end}}
+      {{else}}
+        <div class="col-span-full py-12 text-center bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <p class="text-slate-400 text-sm">No advisors configured yet.</p>
+          <a href="/admin/agents/new" class="inline-flex items-center gap-1 mt-3 px-4 py-2 bg-amber-500 text-navy-950 font-bold text-xs rounded-xl hover:bg-amber-400">
+            + Add First Advisor
+          </a>
+        </div>
+      {{end}}
     </div>
   </div>
 

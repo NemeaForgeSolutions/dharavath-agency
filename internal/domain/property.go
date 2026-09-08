@@ -45,6 +45,10 @@ type Property struct {
 	Nearby       []NearbyPlace `json:"nearby"`
 	Developer    string        `json:"developer"`
 	AgentID      string        `json:"agentId"`
+	ProjectID    *string       `json:"projectId,omitempty"`
+	LocationID   *string       `json:"locationId,omitempty"`
+	CreatedBy    *string       `json:"createdBy,omitempty"`
+	UpdatedBy    *string       `json:"updatedBy,omitempty"`
 }
 
 func (p *Property) Matches(f PropertyFilter) bool {
@@ -108,6 +112,8 @@ type Project struct {
 	Name           string   `json:"name"`
 	Developer      string   `json:"developer"`
 	Location       string   `json:"location"`
+	LocationID     *string  `json:"locationId,omitempty"`
+	LeadAgentID    *string  `json:"leadAgentId,omitempty"`
 	StartingPrice  string   `json:"startingPrice"`
 	Configuration  string   `json:"configuration"`
 	PossessionDate string   `json:"possessionDate"`
@@ -119,9 +125,12 @@ type Project struct {
 	Image          string   `json:"image"`
 	Overview       string   `json:"overview"`
 	Highlights     []string `json:"highlights"`
+	CreatedBy      *string  `json:"createdBy,omitempty"`
+	UpdatedBy      *string  `json:"updatedBy,omitempty"`
 }
 
 type LocationInsight struct {
+	ID            string   `json:"id"`
 	Name          string   `json:"name"`
 	Tagline       string   `json:"tagline"`
 	AvgPrice      string   `json:"avgPrice"`
@@ -129,32 +138,46 @@ type LocationInsight struct {
 	Image         string   `json:"image"`
 	KeyLocalities []string `json:"keyLocalities"`
 	Description   string   `json:"description"`
+	CreatedBy     *string  `json:"createdBy,omitempty"`
+	UpdatedBy     *string  `json:"updatedBy,omitempty"`
 }
 
 type InsightArticle struct {
-	ID          string `json:"id"`
-	Slug        string `json:"slug"`
-	Title       string `json:"title"`
-	Category    string `json:"category"`
-	ReadTime    string `json:"readTime"`
-	Date        string `json:"date"`
-	Summary     string `json:"summary"`
-	Author      string `json:"author"`
-	KeyTakeaway string `json:"keyTakeaway"`
+	ID            string  `json:"id"`
+	Slug          string  `json:"slug"`
+	Title         string  `json:"title"`
+	Category      string  `json:"category"`
+	ReadTime      string  `json:"readTime"`
+	Date          string  `json:"date"`
+	Summary       string  `json:"summary"`
+	Author        string  `json:"author"`
+	AuthorAgentID *string `json:"authorAgentId,omitempty"`
+	KeyTakeaway   string  `json:"keyTakeaway"`
+	CreatedBy     *string `json:"createdBy,omitempty"`
+	UpdatedBy     *string `json:"updatedBy,omitempty"`
 }
 
 type Testimonial struct {
-	Quote    string `json:"quote"`
-	Client   string `json:"client"`
-	Location string `json:"location"`
-	Type     string `json:"type"`
-	Property string `json:"property"`
+	ID         string  `json:"id"`
+	Quote      string  `json:"quote"`
+	Client     string  `json:"client"`
+	Location   string  `json:"location"`
+	Type       string  `json:"type"`
+	Property   string  `json:"property"`
+	PropertyID *string `json:"propertyId,omitempty"`
+	AgentID    *string `json:"agentId,omitempty"`
+	CreatedBy  *string `json:"createdBy,omitempty"`
+	UpdatedBy  *string `json:"updatedBy,omitempty"`
 }
 
 type WhyChooseUsItem struct {
-	Number string `json:"number"`
-	Title  string `json:"title"`
-	Desc   string `json:"desc"`
+	ID          string  `json:"id"`
+	Number      string  `json:"number"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Desc        string  `json:"desc"`
+	CreatedBy   *string `json:"createdBy,omitempty"`
+	UpdatedBy   *string `json:"updatedBy,omitempty"`
 }
 
 type Address struct {

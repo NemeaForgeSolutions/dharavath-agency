@@ -29,3 +29,10 @@ docker-build:
 
 docker-run:
 	docker run -p 8080:8080 -e PORT=8080 dharavath-agency:latest
+
+upload-images:
+	go run ./cmd/uploader
+
+upload-images-dry:
+	go run ./cmd/uploader --dry-run
+

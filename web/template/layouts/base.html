@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" href="/static/img/favicon.svg">
   <link rel="manifest" href="/site.webmanifest">
   
-  <title>{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}} - Curated Indian Real Estate</title>
+  <title>{{if .Title}}{{.Title}} | {{.Company.Name}}{{else}}{{.Company.Name}} - Curated Indian Real Estate{{end}}</title>
   <meta name="description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
   <meta name="keywords" content="Indian real estate, Hyderabad properties, Bangalore apartments, luxury villas Jubilee Hills, Financial District Kokapet, buy house India, RERA verified brokers, commercial office lease">
   <meta name="author" content="{{.Company.Name}}">
@@ -38,7 +38,7 @@
   <meta property="og:site_name" content="{{.Company.Name}}">
   <meta property="og:type" content="{{if .OGType}}{{.OGType}}{{else}}website{{end}}">
   <meta property="og:url" content="{{if .CanonicalURL}}{{.CanonicalURL}}{{else}}https://dharavathagency.in/{{end}}">
-  <meta property="og:title" content="{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}}">
+  <meta property="og:title" content="{{if .Title}}{{.Title}} | {{.Company.Name}}{{else}}{{.Company.Name}}{{end}}">
   <meta property="og:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
   <meta property="og:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
   <meta property="og:image:width" content="1200">
@@ -46,9 +46,9 @@
   <meta property="og:image:alt" content="{{if .Title}}{{.Title}}{{else}}{{.Company.Name}}{{end}}">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@Dharavath AgencyRealty">
-  <meta name="twitter:creator" content="@Dharavath AgencyRealty">
-  <meta name="twitter:title" content="{{if .Title}}{{.Title}} | {{end}}{{.Company.Name}}">
+  <meta name="twitter:site" content="@DharavathAgency">
+  <meta name="twitter:creator" content="@DharavathAgency">
+  <meta name="twitter:title" content="{{if .Title}}{{.Title}} | {{.Company.Name}}{{else}}{{.Company.Name}}{{end}}">
   <meta name="twitter:description" content="{{if .Description}}{{.Description}}{{else}}{{.Company.Tagline}}{{end}}">
   <meta name="twitter:image" content="{{if .OGImage}}{{.OGImage}}{{else}}https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85{{end}}">
 
