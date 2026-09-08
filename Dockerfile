@@ -11,7 +11,7 @@ COPY internal/ ./internal/
 
 RUN npm run build:css
 
-FROM golang:1.24-alpine AS go-builder
+FROM golang:1.27-alpine AS go-builder
 
 WORKDIR /app
 

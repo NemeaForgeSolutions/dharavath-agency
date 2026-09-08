@@ -67,13 +67,12 @@ Features server-side rendering with Go's standard library `net/http` and `html/t
 
 ## Supabase & Database Setup
 
-The application supports both live **Supabase PostgreSQL** and an **in-memory** fallback store.
+The application supports live **Supabase PostgreSQL**.
 
 ### 1. Automatic Database Migration & Seeding on Startup
 When `DB_URL` is set in `.env`, the server automatically checks if the database is initialized or empty on startup:
 - Runs database table migrations (`CREATE TABLE IF NOT EXISTS`, indexes, and RLS policies).
 - Automatically seeds all properties, agents, projects, location insights, articles, and testimonials if the properties table is empty.
-- Controlled via `AUTO_SEED=true` in `.env` (enabled by default).
 
 Alternatively, you can manually execute [`supabase/schema.sql`](supabase/schema.sql) in your **Supabase Dashboard -> SQL Editor** or via `psql`.
 
@@ -102,14 +101,12 @@ Configure the server via environment variables or a `.env` file (automatically l
 | `PORT` | `8080` | HTTP listening port |
 | `APP_ENV` | `development` | Environment mode (`development` or `production`) |
 | `DB_URL` | `""` | Supabase / PostgreSQL connection string (`postgres://...`) |
-| `AUTO_SEED` | `true` | Automatically migrate schema and seed database on startup if empty |
 | `SUPABASE_URL` | `""` | Supabase Project API URL (`https://<project-ref>.supabase.co`) |
 | `SUPABASE_SECRET_KEY` | `""` | Supabase Service Role / Secret API key |
 | `SUPABASE_BUCKET` | `test-bkt` | Supabase Storage bucket name for images |
 | `READ_TIMEOUT_SEC` | `10` | Maximum request read duration in seconds |
 | `WRITE_TIMEOUT_SEC` | `15` | Maximum response write duration in seconds |
 | `IDLE_TIMEOUT_SEC` | `60` | Maximum keep-alive wait time in seconds |
-
 
 ---
 
